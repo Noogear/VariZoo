@@ -1,0 +1,4 @@
+name: ScalingZoo
+version: '1.0'
+main: cn.scalingZoo.main
+api-version: '1.21'

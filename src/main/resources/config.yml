@@ -1,0 +1,73 @@
+# 总开关
+enabled: true
+
+# 动物生成相关
+animal-spawn:
+  # 默认
+  default:
+    # 动物生成时附带体型大小的概率，设置为0或者负数禁用，最大为100
+    apply: 33
+    # 初始体型为1.0
+    # 体型变化将从以下区间随机取值，你也可以使用以下方法替代，这样只会从这几个数取值
+    # degree: 0.8, 0.9, 1.1, 1.2
+    # 配置中所有degree同理
+    degree: 0.86-1.16
+  # 变异是已获得体型改变的情况下才会发生
+  mutation:
+    # 变异的概率，设置为0或者负数禁用，最大为100
+    apply: 6
+    # 模式有两种，RANDOM代表随机放大或缩小；MORE代表根据现有体型更大或者更小
+    mode: RANDOM
+    # 按比例改变
+    # mode为MORE，体型小于1则再次变小0.77倍，体型大于1则再次变大1.3倍
+    degree: 0.77, 1.3
+    # 触发变异产生的粒子特效
+    particle:
+      # 类型
+      type: GLOW
+      # 数量
+      count: 20
+  # 黑名单
+  blacklist:
+    # 不受影响的动物 https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
+    animal:
+      - BEE
+    # 不受影响的世界
+    world: []
+    # 不受影响的生成原因 https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/CreatureSpawnEvent.SpawnReason.html
+    spawn-reason:
+      - BREEDING
+      - SPAWNER_EGG
+
+# 生育相关
+breed:
+  # 动物生育宝宝是否遗传体型
+  inheritance:
+    # 可以运用简单的加减乘除平方公式，改变父母对孩子体型的影响，为空时禁用遗传
+    final-scale: "({father} * 1.1 + {mother} * 1.2) / {degree}"
+    # 比例，配合上方的final-scale使用
+    degree: 2.0-2.6
+  # 多胞胎功能
+  multiple-births:
+    # 多胞胎的概率，设置为0或负数时禁止，最大为100。注意不可过高，每次生育都会触发多胞胎判定，过高会一直生孩子导致卡服
+    apply: 9
+    # 每次生孩子的间隔，单位为tick，20ticks = 1s
+    delay: 3
+  # 黑名单
+  blacklist:
+    # 不受影响的动物
+    animal:
+      - BEE
+    # 不受影响的世界
+    world: []
+
+# 其他相关
+other:
+  # 体型影响对生命的影响，会等比例变化生命值
+  effect-health: true
+  # 动物转变时是否保留体型，比如猪被雷劈变成猪灵，依旧会继承体型
+  transform: true
+  # 蝾螈、鱼等动物装进桶后放出会失去原有的体型，该功能可以保留体型，会修正鱼桶和发射器
+  bucket-fish-fix: true
+  # 使动物的掉落物数量乘以value，为空时禁用
+  increase-drops-value: "{scale} ^ (1 / 2)"
