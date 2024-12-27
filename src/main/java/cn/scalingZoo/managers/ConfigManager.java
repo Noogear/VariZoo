@@ -1,13 +1,8 @@
 package cn.scalingZoo.managers;
 
-import cn.scalingZoo.main;
+import cn.scalingZoo.utils.configuration.Comment;
+import cn.scalingZoo.utils.configuration.ConfigurationFile;
 
 public class ConfigManager {
-    private final main main;
-
-    public ConfigManager(main main) {
-        this.main = main;
-    }
-
 
 }

@@ -1,8 +1,6 @@
 package cn.scalingZoo.listeners;
 
-import cn.scalingZoo.utils.Cacheable;
 import io.papermc.paper.entity.Bucketable;
-import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -13,30 +11,14 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import static org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.SPAWNER_EGG;
-
 public class AnimalSpawn implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onSpawn(CreatureSpawnEvent event) {
         if (!(event.getEntity() instanceof Animals entity)) return;
 
-        if (entity instanceof Bucketable) {
-            if (event.getSpawnReason() == SPAWNER_EGG) {
-                Location loc = entity.getLocation();
-                loc.setYaw(0);
-                double sca = Cacheable.getFishScale(loc);
-                if (sca != 0) {
-                    ((Bucketable) entity).setFromBucket(true);
-                    AttributeInstance scale = entity.getAttribute(Attribute.GENERIC_SCALE);
-                    if (scale == null) return;
-                    AttributeInstance maxHealth = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-                    if (maxHealth == null) return;
-                    scale.setBaseValue(sca);
-                    maxHealth.setBaseValue(maxHealth.getBaseValue() * sca);
-                    return;
-                }
-            }
+        if (entity instanceof Bucketable b) {
+            if (b.isFromBucket()) return;
         }
 
         int mutant = ThreadLocalRandom.current().nextInt(100);

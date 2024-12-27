@@ -1,5 +1,7 @@
 package cn.scalingZoo.listeners;
 
+import cn.scalingZoo.utils.Cacheable;
+import io.papermc.paper.entity.Bucketable;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -10,8 +12,10 @@ import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Waterlogged;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketEntityEvent;
 import org.bukkit.inventory.ItemStack;
@@ -22,8 +26,29 @@ import org.bukkit.persistence.PersistentDataType;
 import static cn.scalingZoo.utils.Cacheable.addFishScale;
 import static cn.scalingZoo.utils.Constant.isFishBucket;
 import static cn.scalingZoo.utils.Constant.scaleKey;
+import static org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.SPAWNER_EGG;
 
 public class BucketFishFix implements Listener {
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onFishSpawn(CreatureSpawnEvent event) {
+        if (event.getEntity() instanceof Bucketable entity) {
+            if (event.getSpawnReason() == SPAWNER_EGG) {
+                Location loc = entity.getLocation();
+                loc.setYaw(0);
+                double sca = Cacheable.getFishScale(loc);
+                if (sca != 0) {
+                    entity.setFromBucket(true);
+                    AttributeInstance scale = ((LivingEntity) entity).getAttribute(Attribute.GENERIC_SCALE);
+                    if (scale == null) return;
+                    AttributeInstance maxHealth = ((LivingEntity) entity).getAttribute(Attribute.GENERIC_MAX_HEALTH);
+                    if (maxHealth == null) return;
+                    scale.setBaseValue(sca);
+                    maxHealth.setBaseValue(maxHealth.getBaseValue() * sca);
+                }
+            }
+        }
+    }
 
     @EventHandler(ignoreCancelled = true)
     public void onBucketFish(PlayerBucketEntityEvent event) {

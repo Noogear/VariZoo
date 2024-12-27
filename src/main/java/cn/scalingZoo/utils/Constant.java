@@ -10,10 +10,12 @@ import java.util.stream.Stream;
 
 public class Constant {
     private static NamespacedKey scale;
+    private static NamespacedKey skip;
     private static Set<Material> fishBucket;
 
     public Constant(main main) {
         scale = new NamespacedKey(main, "scale");
+        skip = new NamespacedKey(main, "skip");
         fishBucket = Stream.of(
                 Material.AXOLOTL_BUCKET,
                 Material.COD_BUCKET,
@@ -26,6 +28,10 @@ public class Constant {
 
     public static NamespacedKey scaleKey() {
         return scale;
+    }
+
+    public static NamespacedKey skipKey() {
+        return skip;
     }
 
     public static boolean isFishBucket(Material material) {
