@@ -1,5 +1,6 @@
 package cn.variZoo.listeners;
 
+import cn.variZoo.Configuration;
 import cn.variZoo.Main;
 import cn.variZoo.utils.Cacheable;
 import cn.variZoo.utils.EntityUtil;
@@ -51,7 +52,7 @@ public class BucketFishFix implements Listener {
         ));
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onFishSpawn(CreatureSpawnEvent event) {
         if (event.getEntity() instanceof Bucketable entity) {
             if (event.getSpawnReason() == SPAWNER_EGG) {
@@ -60,12 +61,15 @@ public class BucketFishFix implements Listener {
                 double sca = Cacheable.getFishScale(loc);
                 if (sca != 0) {
                     entity.setFromBucket(true);
-                    AttributeInstance scale = ((LivingEntity) entity).getAttribute(EntityUtil.scaleAttribute);
+                    EntityUtil.setInvalid(entity);
+                    AttributeInstance scale = ((LivingEntity) entity).getAttribute(EntityUtil.getScaleAttribute());
                     if (scale == null) return;
-                    AttributeInstance maxHealth = ((LivingEntity) entity).getAttribute(Attribute.GENERIC_MAX_HEALTH);
-                    if (maxHealth == null) return;
                     scale.setBaseValue(sca);
-                    maxHealth.setBaseValue(maxHealth.getBaseValue() * sca);
+                    if (Configuration.other.effectHealth) {
+                        AttributeInstance maxHealth = ((LivingEntity) entity).getAttribute(Attribute.GENERIC_MAX_HEALTH);
+                        if (maxHealth == null) return;
+                        maxHealth.setBaseValue(maxHealth.getBaseValue() * sca);
+                    }
                 }
             }
         }
@@ -74,7 +78,7 @@ public class BucketFishFix implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onBucketFish(PlayerBucketEntityEvent event) {
         if (event.getEntity() instanceof LivingEntity entity) {
-            AttributeInstance scale = entity.getAttribute(EntityUtil.scaleAttribute);
+            AttributeInstance scale = entity.getAttribute(EntityUtil.getScaleAttribute());
             if (scale == null) return;
             ItemStack bucket = event.getEntityBucket();
             ItemMeta meta = bucket.getItemMeta();

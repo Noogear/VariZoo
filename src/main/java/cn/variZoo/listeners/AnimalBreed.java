@@ -36,12 +36,12 @@ public class AnimalBreed implements Listener {
         double degree = plugin.degreeManager.getDegree("breedInheritanceDegree");
 
         double birthScale = Expression.evaluateBreedFinalScale(
-                father.getAttribute(EntityUtil.scaleAttribute).getValue(),
-                mother.getAttribute(EntityUtil.scaleAttribute).getValue(),
+                father.getAttribute(EntityUtil.getScaleAttribute()).getValue(),
+                mother.getAttribute(EntityUtil.getScaleAttribute()).getValue(),
                 degree
         );
 
-        AttributeInstance babyScale = entity.getAttribute(EntityUtil.scaleAttribute);
+        AttributeInstance babyScale = entity.getAttribute(EntityUtil.getScaleAttribute());
 
         if (babyScale != null) {
             babyScale.setBaseValue(birthScale * babyScale.getValue());

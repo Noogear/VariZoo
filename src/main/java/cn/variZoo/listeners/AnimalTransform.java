@@ -16,11 +16,11 @@ public class AnimalTransform implements Listener {
     public void onTransform(EntityTransformEvent event) {
         if (!(event.getEntity() instanceof Animals from)) return;
 
-        AttributeInstance fromScale = from.getAttribute(EntityUtil.scaleAttribute);
+        AttributeInstance fromScale = from.getAttribute(EntityUtil.getScaleAttribute());
         if (fromScale == null) return;
 
         if (!(event.getTransformedEntity() instanceof LivingEntity to)) return;
-        AttributeInstance toScale = to.getAttribute(EntityUtil.scaleAttribute);
+        AttributeInstance toScale = to.getAttribute(EntityUtil.getScaleAttribute());
         if (toScale == null || toScale.getValue() != 1.0) return;
 
         toScale.setBaseValue(fromScale.getValue());

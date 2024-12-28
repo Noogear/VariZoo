@@ -4,10 +4,7 @@ import cn.variZoo.managers.CommandManager;
 import cn.variZoo.managers.ConfigManager;
 import cn.variZoo.managers.DegreeManager;
 import cn.variZoo.managers.ListenerManager;
-import cn.variZoo.utils.EntityUtil;
-import cn.variZoo.utils.Expression;
-import cn.variZoo.utils.Scheduler;
-import cn.variZoo.utils.XLogger;
+import cn.variZoo.utils.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,7 +24,7 @@ public final class Main extends JavaPlugin {
         boolean enabled = false;
         for (Attribute attribute : Attribute.values()) {
             if (attribute.name().toLowerCase().contains("scale")) {
-                EntityUtil.scaleAttribute = attribute;
+                new EntityUtil(this,attribute);
                 enabled = true;
             }
         }
@@ -54,6 +51,7 @@ public final class Main extends JavaPlugin {
         } catch (ClassNotFoundException e) {
             folia = false;
         }
+        new  Cacheable();
         configManager = new ConfigManager(this);
         listenerManager = new ListenerManager(this);
         degreeManager = new DegreeManager();

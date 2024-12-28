@@ -33,11 +33,12 @@ public class AnimalSpawn implements Listener {
 
         if (entity instanceof Bucketable b) {
             if (b.isFromBucket()) return;
+            if (EntityUtil.isInvalid(b)) return;
         }
 
         if (ThreadLocalRandom.current().nextInt(100) > Configuration.AnimalSpawn.basic.apply) return;
 
-        AttributeInstance scale = entity.getAttribute(EntityUtil.scaleAttribute);
+        AttributeInstance scale = entity.getAttribute(EntityUtil.getScaleAttribute());
         if (scale == null) return;
 
         double randomScale = plugin.degreeManager.getDegree("animalBasicDegree");
