@@ -41,18 +41,6 @@ public class Expression {
         }
     }
 
-    private String[] setEnv(String expression) {
-        Pattern pattern = Pattern.compile("\\{([^}]*)}");
-        Matcher matcher = pattern.matcher(expression);
-
-        List<String> formattedTexts = new ArrayList<>();
-        while (matcher.find()) {
-            formattedTexts.add(matcher.group(1));
-        }
-
-        return formattedTexts.toArray(String[]::new);
-    }
-
     public static double evaluateBreedFinalScale(double father, double mother, double degree) {
         return Crunch.compileExpression(instance.breedFinalExpression, instance.breedFinalScaleEnv).evaluate(father, mother, degree);
     }
@@ -63,6 +51,18 @@ public class Expression {
 
     public static double evaluateIncreaseDrops(double scale) {
         return Crunch.compileExpression(instance.increaseDropsExpression, instance.increaseDropsEnv).evaluate(scale);
+    }
+
+    private String[] setEnv(String expression) {
+        Pattern pattern = Pattern.compile("\\{([^}]*)}");
+        Matcher matcher = pattern.matcher(expression);
+
+        List<String> formattedTexts = new ArrayList<>();
+        while (matcher.find()) {
+            formattedTexts.add(matcher.group(1));
+        }
+
+        return formattedTexts.toArray(String[]::new);
     }
 
 

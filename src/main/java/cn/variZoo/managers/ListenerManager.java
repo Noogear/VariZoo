@@ -13,10 +13,6 @@ public class ListenerManager {
     public ListenerManager(Main main) {
         this.plugin = main;
         pluginManager = plugin.getServer().getPluginManager();
-        registerEvents();
-    }
-
-    private void registerEvents() {
         load();
     }
 

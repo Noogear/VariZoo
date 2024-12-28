@@ -17,7 +17,7 @@ public class Configuration extends ConfigurationFile {
 
     @Comment("动物生成相关")
     public static AnimalSpawn animalSpawn = new AnimalSpawn();
-    @Comment("生育相关")
+    @Comment({"生育相关", "玩家拥有权限varizoo.breed才能使用生育有关功能"})
     public static Breed breed = new Breed();
     @Comment("其他相关")
     public static Other other = new Other();
@@ -35,7 +35,7 @@ public class Configuration extends ConfigurationFile {
 
             @Comment({"动物生成时附带体型大小的概率",
                     "设置为0或者负数禁用，最大为100"})
-            public double apply = 33.0;
+            public double apply = 50.0;
 
             @Comment({"体型变化值",
                     "degree可填写范围或者多个数字"})
@@ -45,15 +45,15 @@ public class Configuration extends ConfigurationFile {
 
         public static class Mutant extends ConfigurationPart {
 
-            @Comment("触发变异时产生的粒子特效")
-            public static Particle particle = new Particle();
             @Comment({"变异的概率", "设置为0或者负数禁用，最大为100"})
-            public double apply = 6.0;
+            public double apply = 3.0;
             @Comment({"MULTIPLY: 简单相乘", "MORE: 自适应, 大的更大, 小的更小"})
             public String mode = "MORE";
             @Comment({"变化值",
                     "degree可填写范围或者多个数字"})
             public String degree = "0.77, 1.3";
+            @Comment("触发变异时产生的粒子特效")
+            public static Particle particle = new Particle();
 
             public static class Particle extends ConfigurationPart {
 
@@ -70,14 +70,14 @@ public class Configuration extends ConfigurationFile {
 
             @Comment({"不受影响的动物",
                     "https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html"})
-            public List<String> animal = List.of("BEE");
+            public List<String> animal = new ArrayList<>();
 
             @Comment("不受影响的世界")
             public List<String> world = new ArrayList<>();
 
             @Comment({"不受影响的生成原因",
                     "https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/CreatureSpawnEvent.SpawnReason.html"})
-            public List<String> spawnReason = List.of("BREEDING", "SPAWNER_EGG");
+            public List<String> spawnReason = List.of("BREEDING", "SPAWNER");
 
         }
 
@@ -135,6 +135,6 @@ public class Configuration extends ConfigurationFile {
         public boolean bucketFishFix = true;
 
         @Comment({"使动物的掉落物数量乘以以下值", "可使用复杂的公式，留空时禁用", "可用变量：{scale}生物体型"})
-        public String increaseDrops = "cbrt({scale})";
+        public String increaseDrops = "sqrt({scale})";
     }
 }

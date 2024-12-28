@@ -4,9 +4,11 @@ import cn.variZoo.managers.CommandManager;
 import cn.variZoo.managers.ConfigManager;
 import cn.variZoo.managers.DegreeManager;
 import cn.variZoo.managers.ListenerManager;
+import cn.variZoo.utils.EntityUtil;
 import cn.variZoo.utils.Expression;
 import cn.variZoo.utils.Scheduler;
 import cn.variZoo.utils.XLogger;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
@@ -14,12 +16,28 @@ public final class Main extends JavaPlugin {
     public ListenerManager listenerManager;
     public DegreeManager degreeManager;
     public CommandManager commandManager;
-    private boolean paper;
+    private boolean folia;
 
     @Override
     public void onEnable() {
         long startTime = System.currentTimeMillis();
+
         new XLogger(this);
+
+        boolean enabled = false;
+        for (Attribute attribute : Attribute.values()) {
+            if (attribute.name().toLowerCase().contains("scale")) {
+                EntityUtil.scaleAttribute = attribute;
+                enabled = true;
+            }
+        }
+
+        if (!enabled) {
+            XLogger.err("This server is not supported. The plugin will be disabled!");
+            this.getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         XLogger.info(this.getServer().getName() + this.getServer().getVersion());
         XLogger.info("██╗   ██╗ █████╗ ██████╗ ██╗███████╗ ██████╗  ██████╗ ");
         XLogger.info("██║   ██║██╔══██╗██╔══██╗██║╚══███╔╝██╔═══██╗██╔═══██╗");
@@ -27,13 +45,14 @@ public final class Main extends JavaPlugin {
         XLogger.info("╚██╗ ██╔╝██╔══██║██╔══██╗██║ ███╔╝  ██║   ██║██║   ██║");
         XLogger.info(" ╚████╔╝ ██║  ██║██║  ██║██║███████╗╚██████╔╝╚██████╔╝");
         XLogger.info("  ╚═══╝  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚══════╝ ╚═════╝  ╚═════╝ ");
+        XLogger.info("https://github.com/Noogear/VariZoo");
         XLogger.info("Version: " + this.getDescription().getVersion());
 
         try {
-            Class.forName("io.papermc.paper.threadedregions.scheduler.ScheduledTask");
-            paper = true;
+            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
+            folia = true;
         } catch (ClassNotFoundException e) {
-            paper = false;
+            folia = false;
         }
         configManager = new ConfigManager(this);
         listenerManager = new ListenerManager(this);
@@ -51,19 +70,15 @@ public final class Main extends JavaPlugin {
         Scheduler.cancelAll();
     }
 
-    public boolean isPaper() {
-        return paper;
+    public boolean isFolia() {
+        return folia;
     }
 
     public void reload() {
-
-
         Scheduler.cancelAll();
         configManager.load();
         listenerManager.reload();
         degreeManager.load();
         Expression.load();
-
-
     }
 }

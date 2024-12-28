@@ -3,6 +3,7 @@ package cn.variZoo.listeners;
 import cn.variZoo.Configuration;
 import cn.variZoo.Main;
 import cn.variZoo.managers.ConfigManager;
+import cn.variZoo.utils.EntityUtil;
 import cn.variZoo.utils.Expression;
 import cn.variZoo.utils.Scheduler;
 import org.bukkit.attribute.Attribute;
@@ -35,12 +36,12 @@ public class AnimalBreed implements Listener {
         double degree = plugin.degreeManager.getDegree("breedInheritanceDegree");
 
         double birthScale = Expression.evaluateBreedFinalScale(
-                father.getAttribute(Attribute.GENERIC_SCALE).getValue(),
-                mother.getAttribute(Attribute.GENERIC_SCALE).getValue(),
+                father.getAttribute(EntityUtil.scaleAttribute).getValue(),
+                mother.getAttribute(EntityUtil.scaleAttribute).getValue(),
                 degree
         );
 
-        AttributeInstance babyScale = entity.getAttribute(Attribute.GENERIC_SCALE);
+        AttributeInstance babyScale = entity.getAttribute(EntityUtil.scaleAttribute);
 
         if (babyScale != null) {
             babyScale.setBaseValue(birthScale * babyScale.getValue());
@@ -76,7 +77,7 @@ public class AnimalBreed implements Listener {
         if (config.breedBlacklistWorld.contains(e.getWorld().getName())) return true;
         if (config.breedBlacklistAnimal.contains(e.getType())) return true;
         if (p instanceof Player) {
-            return p.hasPermission("varizoo.skip.breed");
+            return !p.hasPermission("varizoo.breed");
         }
         return false;
     }

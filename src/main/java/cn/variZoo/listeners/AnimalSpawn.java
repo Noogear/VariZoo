@@ -3,6 +3,7 @@ package cn.variZoo.listeners;
 import cn.variZoo.Configuration;
 import cn.variZoo.Main;
 import cn.variZoo.managers.ConfigManager;
+import cn.variZoo.utils.EntityUtil;
 import cn.variZoo.utils.Scheduler;
 import io.papermc.paper.entity.Bucketable;
 import org.bukkit.Particle;
@@ -36,7 +37,7 @@ public class AnimalSpawn implements Listener {
 
         if (ThreadLocalRandom.current().nextInt(100) > Configuration.AnimalSpawn.basic.apply) return;
 
-        AttributeInstance scale = entity.getAttribute(Attribute.GENERIC_SCALE);
+        AttributeInstance scale = entity.getAttribute(EntityUtil.scaleAttribute);
         if (scale == null) return;
 
         double randomScale = plugin.degreeManager.getDegree("animalBasicDegree");

@@ -2,6 +2,7 @@ package cn.variZoo.listeners;
 
 import cn.variZoo.Main;
 import cn.variZoo.utils.Cacheable;
+import cn.variZoo.utils.EntityUtil;
 import io.papermc.paper.entity.Bucketable;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -59,7 +60,7 @@ public class BucketFishFix implements Listener {
                 double sca = Cacheable.getFishScale(loc);
                 if (sca != 0) {
                     entity.setFromBucket(true);
-                    AttributeInstance scale = ((LivingEntity) entity).getAttribute(Attribute.GENERIC_SCALE);
+                    AttributeInstance scale = ((LivingEntity) entity).getAttribute(EntityUtil.scaleAttribute);
                     if (scale == null) return;
                     AttributeInstance maxHealth = ((LivingEntity) entity).getAttribute(Attribute.GENERIC_MAX_HEALTH);
                     if (maxHealth == null) return;
@@ -73,7 +74,7 @@ public class BucketFishFix implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onBucketFish(PlayerBucketEntityEvent event) {
         if (event.getEntity() instanceof LivingEntity entity) {
-            AttributeInstance scale = entity.getAttribute(Attribute.GENERIC_SCALE);
+            AttributeInstance scale = entity.getAttribute(EntityUtil.scaleAttribute);
             if (scale == null) return;
             ItemStack bucket = event.getEntityBucket();
             ItemMeta meta = bucket.getItemMeta();

@@ -1,6 +1,7 @@
 package cn.variZoo.listeners;
 
 import cn.variZoo.Configuration;
+import cn.variZoo.utils.EntityUtil;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Animals;
@@ -15,11 +16,11 @@ public class AnimalTransform implements Listener {
     public void onTransform(EntityTransformEvent event) {
         if (!(event.getEntity() instanceof Animals from)) return;
 
-        AttributeInstance fromScale = from.getAttribute(Attribute.GENERIC_SCALE);
+        AttributeInstance fromScale = from.getAttribute(EntityUtil.scaleAttribute);
         if (fromScale == null) return;
 
         if (!(event.getTransformedEntity() instanceof LivingEntity to)) return;
-        AttributeInstance toScale = to.getAttribute(Attribute.GENERIC_SCALE);
+        AttributeInstance toScale = to.getAttribute(EntityUtil.scaleAttribute);
         if (toScale == null || toScale.getValue() != 1.0) return;
 
         toScale.setBaseValue(fromScale.getValue());

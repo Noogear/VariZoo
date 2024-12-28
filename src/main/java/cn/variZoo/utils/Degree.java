@@ -14,18 +14,6 @@ public class Degree {
         this.fixed = fixed;
     }
 
-    public double getStart() {
-        return start;
-    }
-
-    public double getEnd() {
-        return end;
-    }
-
-    public double[] getFixed() {
-        return fixed;
-    }
-
     public double getRandom() {
         if (fixed.length == 0) {
             return ThreadLocalRandom.current().nextDouble(start, end);

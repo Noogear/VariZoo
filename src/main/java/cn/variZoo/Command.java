@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 public class Command implements CommandExecutor, TabCompleter {
     private final List<String> subcommands;
     private final Main plugin;
@@ -26,7 +27,7 @@ public class Command implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
 
         if (args.length == 0 || !subcommands.contains(args[0].toLowerCase())) {
-            Message.help(sender);
+            Message.showHelp(sender);
             return true;
         }
 
@@ -44,12 +45,12 @@ public class Command implements CommandExecutor, TabCompleter {
                 Message.send(sender, "VariZoo重启完成，耗时 " + elapsedTime + " ms");
                 break;
             case "help":
-                Message.help(sender);
-
+                Message.showHelp(sender);
+                break;
         }
-
         return true;
     }
+
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String alias, @NotNull String[] args) {
@@ -57,7 +58,6 @@ public class Command implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             for (String subcmd : subcommands) {
                 if (!sender.hasPermission("varizoo." + subcmd)) continue;
-
                 ret.add(subcmd);
             }
             return StringUtil.copyPartialMatches(args[0].toLowerCase(), ret, new ArrayList<>());

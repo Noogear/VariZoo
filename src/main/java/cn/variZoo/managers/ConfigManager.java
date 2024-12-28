@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 public class ConfigManager {
     private final File configFile;
+    private final Main plugin;
     public boolean animalSpawnMutantParticle;
     public Set<EntityType> animalSpawnBlacklistAnimal;
     public Set<String> animalSpawnBlacklistWorld;
@@ -22,7 +23,6 @@ public class ConfigManager {
     public Set<EntityType> breedBlacklistAnimal;
     public Set<String> breedBlacklistWorld;
     public boolean otherIncreaseDrops;
-    private Main plugin;
 
     public ConfigManager(Main main) {
         this.plugin = main;
@@ -39,7 +39,7 @@ public class ConfigManager {
             throw new RuntimeException(e);
         }
 
-        animalSpawnMutantParticle = Configuration.AnimalSpawn.Mutant.particle.type.isEmpty() || Configuration.AnimalSpawn.Mutant.particle.count < 1;
+        animalSpawnMutantParticle = !(Configuration.AnimalSpawn.Mutant.particle.type.isEmpty() && Configuration.AnimalSpawn.Mutant.particle.count < 1);
         animalSpawnBlacklistAnimal = Configuration.AnimalSpawn.blackList.animal.stream()
                 .map(String::toUpperCase)
                 .map(s -> {
