@@ -6,6 +6,17 @@ folia-supported: true
 
 commands:
   varizoo:
-    description: Main command
+    description: Main command.
     aliases:
       - vz
+    usage: /<command>
+permissions:
+  varizoo.reload:
+    description: Allow the player to reload the plugin.
+    default: op
+  varizoo.help:
+    description: Allow the player to reload the plugin.
+    default: true
+  varizoo.skip.breed:
+    description: Allow the player to breed animal without scale.
+    default: op

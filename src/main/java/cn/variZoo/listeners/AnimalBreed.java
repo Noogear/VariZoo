@@ -76,8 +76,8 @@ public class AnimalBreed implements Listener {
         ConfigManager config = plugin.configManager;
         if (config.breedBlacklistWorld.contains(e.getWorld().getName())) return true;
         if (config.breedBlacklistAnimal.contains(e.getType())) return true;
-        if (p instanceof Player) {
-            return !p.hasPermission("varizoo.breed");
+        if (p instanceof Player player) {
+            return player.hasPermission("varizoo.skip.breed") || !player.isOp();
         }
         return false;
     }

@@ -17,7 +17,7 @@ public class Configuration extends ConfigurationFile {
 
     @Comment("动物生成相关")
     public static AnimalSpawn animalSpawn = new AnimalSpawn();
-    @Comment({"生育相关", "玩家拥有权限varizoo.breed才能使用生育有关功能"})
+    @Comment("生育相关")
     public static Breed breed = new Breed();
     @Comment("其他相关")
     public static Other other = new Other();
@@ -89,7 +89,7 @@ public class Configuration extends ConfigurationFile {
         public static Inheritance inheritance = new Inheritance();
         @Comment("多胞胎功能")
         public static Multiple multiple = new Multiple();
-        @Comment("黑名单")
+        @Comment({"黑名单", "给予玩家varizoo.skip.breed权限可以单独关闭遗传功能，防止一些生物牧场被破坏"})
         public static BlackList blackList = new BlackList();
 
         public static class Inheritance extends ConfigurationPart {
