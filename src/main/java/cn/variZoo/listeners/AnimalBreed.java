@@ -77,7 +77,9 @@ public class AnimalBreed implements Listener {
         if (config.breedBlacklistWorld.contains(e.getWorld().getName())) return true;
         if (config.breedBlacklistAnimal.contains(e.getType())) return true;
         if (p instanceof Player player) {
-            return player.hasPermission("varizoo.skip.breed") || !player.isOp();
+            if (player.hasPermission("varizoo.skip.breed")) {
+                return !player.isOp();
+            }
         }
         return false;
     }

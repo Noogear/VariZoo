@@ -28,13 +28,13 @@ public class Expression {
         try {
 
             instance.breedFinalScaleEnv.setVariableNames(instance.setEnv(Configuration.Breed.inheritance.finalScale));
-            instance.breedFinalExpression = Configuration.Breed.inheritance.finalScale.replaceAll(" ","").replaceAll("\\{([^}]*)}", "$1");
+            instance.breedFinalExpression = Configuration.Breed.inheritance.finalScale.replaceAll(" ", "").replaceAll("\\{([^}]*)}", "$1");
 
             instance.breedHurtEnv.setVariableNames(instance.setEnv(Configuration.Breed.multiple.hurt));
-            instance.breedHurtExpression = Configuration.Breed.multiple.hurt.replaceAll(" ","").replaceAll("\\{([^}]*)}", "$1");
+            instance.breedHurtExpression = Configuration.Breed.multiple.hurt.replaceAll(" ", "").replaceAll("\\{([^}]*)}", "$1");
 
             instance.increaseDropsEnv.setVariableNames(instance.setEnv(Configuration.other.increaseDrops));
-            instance.increaseDropsExpression = Configuration.other.increaseDrops.replaceAll(" ","").replaceAll("\\{([^}]*)}", "$1");
+            instance.increaseDropsExpression = Configuration.other.increaseDrops.replaceAll(" ", "").replaceAll("\\{([^}]*)}", "$1");
 
         } catch (Exception e) {
             XLogger.err("Failed to load expression configuration: %s", e.getMessage());

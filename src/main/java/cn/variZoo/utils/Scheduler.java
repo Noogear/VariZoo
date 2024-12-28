@@ -2,8 +2,6 @@ package cn.variZoo.utils;
 
 import cn.variZoo.Main;
 
-import java.util.concurrent.TimeUnit;
-
 public class Scheduler {
     public static Scheduler instance;
     private final boolean isFolia;
@@ -54,7 +52,6 @@ public class Scheduler {
             instance.plugin.getServer().getScheduler().runTask(instance.plugin, task);
         }
     }
-
 
 
 }
