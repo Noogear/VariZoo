@@ -5,7 +5,6 @@ import cn.variZoo.Main;
 import cn.variZoo.managers.ConfigManager;
 import cn.variZoo.utils.EntityUtil;
 import cn.variZoo.utils.Scheduler;
-import io.papermc.paper.entity.Bucketable;
 import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -31,10 +30,7 @@ public class AnimalSpawn implements Listener {
 
         if (isInvalidSpawn(entity, event.getSpawnReason())) return;
 
-        if (entity instanceof Bucketable b) {
-            if (b.isFromBucket()) return;
-            if (EntityUtil.isInvalid(b)) return;
-        }
+        if (EntityUtil.isInvalid(entity)) return;
 
         if (ThreadLocalRandom.current().nextInt(100) > Configuration.AnimalSpawn.basic.apply) return;
 

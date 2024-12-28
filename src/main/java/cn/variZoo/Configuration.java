@@ -10,7 +10,7 @@ import java.util.List;
 public class Configuration extends ConfigurationFile {
 
     @Comment("版本号")
-    public static int version = 1;
+    public static int version = 2;
 
     @Comment("总开关")
     public static boolean enabled = true;
@@ -99,6 +99,9 @@ public class Configuration extends ConfigurationFile {
 
             @Comment("比例，配合上方的final-scale使用")
             public String degree = "2.0-2.6";
+
+            @Comment("开启该选项会让宝宝不受animal-spawn的二次体型变化影响")
+            public boolean skipAnimalSpawn = false;
         }
 
         public static class Multiple extends ConfigurationPart {

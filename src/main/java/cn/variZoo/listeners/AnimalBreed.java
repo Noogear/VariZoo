@@ -47,6 +47,10 @@ public class AnimalBreed implements Listener {
             babyScale.setBaseValue(birthScale * babyScale.getValue());
         }
 
+        if (Configuration.Breed.inheritance.skipAnimalSpawn) {
+            EntityUtil.setInvalid(entity);
+        }
+
         if (Configuration.other.effectHealth) {
             AttributeInstance babyHealth = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
             if (babyHealth == null) return;
