@@ -18,6 +18,16 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        long startTime = System.currentTimeMillis();
+        new XLogger(this);
+        XLogger.info(this.getServer().getName() + this.getServer().getVersion());
+        XLogger.info("██╗   ██╗ █████╗ ██████╗ ██╗███████╗ ██████╗  ██████╗ ");
+        XLogger.info("██║   ██║██╔══██╗██╔══██╗██║╚══███╔╝██╔═══██╗██╔═══██╗");
+        XLogger.info("██║   ██║███████║██████╔╝██║  ███╔╝ ██║   ██║██║   ██║");
+        XLogger.info("╚██╗ ██╔╝██╔══██║██╔══██╗██║ ███╔╝  ██║   ██║██║   ██║");
+        XLogger.info(" ╚████╔╝ ██║  ██║██║  ██║██║███████╗╚██████╔╝╚██████╔╝");
+        XLogger.info("  ╚═══╝  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚══════╝ ╚═════╝  ╚═════╝ ");
+        XLogger.info("Version: " + this.getDescription().getVersion());
 
         try {
             Class.forName("io.papermc.paper.threadedregions.scheduler.ScheduledTask");
@@ -25,19 +35,20 @@ public final class Main extends JavaPlugin {
         } catch (ClassNotFoundException e) {
             paper = false;
         }
-
-        new XLogger(this);
-        new Scheduler(this);
         configManager = new ConfigManager(this);
         listenerManager = new ListenerManager(this);
         degreeManager = new DegreeManager();
         commandManager = new CommandManager(this);
+        new Scheduler(this);
+        new Expression();
 
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        XLogger.info("Plugin loaded successfully in " + elapsedTime + " ms");
     }
 
     @Override
     public void onDisable() {
-
+        Scheduler.cancelAll();
     }
 
     public boolean isPaper() {
@@ -45,10 +56,14 @@ public final class Main extends JavaPlugin {
     }
 
     public void reload() {
+
+
         Scheduler.cancelAll();
         configManager.load();
         listenerManager.reload();
         degreeManager.load();
         Expression.load();
+
+
     }
 }

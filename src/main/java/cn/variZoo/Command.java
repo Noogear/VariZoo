@@ -37,8 +37,11 @@ public class Command implements CommandExecutor, TabCompleter {
 
         switch (args[0].toLowerCase()) {
             case "reload":
+                long startTime = System.currentTimeMillis();
+                Message.send(sender, "插件重启中...");
                 plugin.reload();
-                Message.send(sender, "插件重启成功!");
+                long elapsedTime = System.currentTimeMillis() - startTime;
+                Message.send(sender, "VariZoo重启完成，耗时 " + elapsedTime + " ms");
                 break;
             case "help":
                 Message.help(sender);

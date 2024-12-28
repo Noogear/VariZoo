@@ -120,6 +120,7 @@ public class ConfigurationManager {
                 key = prefix + "." + key;
             }
             if (!yaml.contains(key)) {
+                XLogger.warn("Can't find %s from %s.", field.getName(), key);
                 continue;
             }
             if (ConfigurationPart.class.isAssignableFrom(field.getType())) {
@@ -135,6 +136,7 @@ public class ConfigurationManager {
             field.setAccessible(true);
             String newKey = key + "." + camelToKebab(field.getName());
             if (!yaml.contains(newKey)) {
+                XLogger.warn("Can't find %s from %s.", field.getName(), key);
                 continue;
             }
             if (ConfigurationPart.class.isAssignableFrom(field.getType())) {

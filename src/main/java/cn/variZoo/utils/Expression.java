@@ -27,21 +27,21 @@ public class Expression {
     public static void load() {
         try {
 
-            instance.breedFinalScaleEnv.setVariableNames(setEnv(Configuration.Breed.inheritance.finalScale));
+            instance.breedFinalScaleEnv.setVariableNames(instance.setEnv(Configuration.Breed.inheritance.finalScale));
             instance.breedFinalExpression = Configuration.Breed.inheritance.finalScale.replaceAll("\\{([^}]*)}", "$1");
 
-            instance.breedHurtEnv.setVariableNames(setEnv(Configuration.Breed.multiple.hurt));
+            instance.breedHurtEnv.setVariableNames(instance.setEnv(Configuration.Breed.multiple.hurt));
             instance.breedHurtExpression = Configuration.Breed.multiple.hurt.replaceAll("\\{([^}]*)}", "$1");
 
-            instance.increaseDropsEnv.setVariableNames(setEnv(Configuration.other.increaseDrops));
+            instance.increaseDropsEnv.setVariableNames(instance.setEnv(Configuration.other.increaseDrops));
             instance.increaseDropsExpression = Configuration.other.increaseDrops.replaceAll("\\{([^}]*)}", "$1");
 
         } catch (Exception e) {
-            XLogger.err("Failed to load expression configuration:", e.getMessage());
+            XLogger.err("Failed to load expression configuration: %s", e.getMessage());
         }
     }
 
-    private static String[] setEnv(String expression) {
+    private String[] setEnv(String expression) {
         Pattern pattern = Pattern.compile("\\{([^}]*)}");
         Matcher matcher = pattern.matcher(expression);
 

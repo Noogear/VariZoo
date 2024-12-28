@@ -20,26 +20,26 @@ public class XLogger {
     }
 
     public static void info(String message) {
-        instance.logger.info(" I | " + message);
+        instance.logger.info(message);
     }
 
     public static void info(String message, Object... args) {
-        instance.logger.info(" I | " + String.format(message, args));
+        instance.logger.info(String.format(message, args));
     }
 
     public static void warn(String message) {
-        instance.logger.warning(" W | " + message);
+        instance.logger.warning(message);
     }
 
     public static void warn(String message, Object... args) {
-        instance.logger.warning(" W | " + String.format(message, args));
+        instance.logger.warning(String.format(message, args));
     }
 
     public static void err(String message) {
-        instance.logger.severe(" E | " + message);
+        instance.logger.severe(message);
     }
 
     public static void err(String message, Object... args) {
-        instance.logger.severe(" E | " + String.format(message, args));
+        instance.logger.severe(String.format(message, args));
     }
 }
