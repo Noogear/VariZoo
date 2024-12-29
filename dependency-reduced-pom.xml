@@ -4,7 +4,7 @@
   <groupId>cn</groupId>
   <artifactId>VariZoo</artifactId>
   <name>VariZoo</name>
-  <version>1.02</version>
+  <version>1.03</version>
   <build>
     <defaultGoal>clean package</defaultGoal>
     <resources>
