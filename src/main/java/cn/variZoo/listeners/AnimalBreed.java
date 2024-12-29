@@ -5,6 +5,7 @@ import cn.variZoo.Main;
 import cn.variZoo.managers.ConfigManager;
 import cn.variZoo.utils.EntityUtil;
 import cn.variZoo.utils.Expression;
+import cn.variZoo.utils.Message;
 import cn.variZoo.utils.Scheduler;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -73,6 +74,15 @@ public class AnimalBreed implements Listener {
             mother.damage(Expression.evaluateBreedHurt(mother.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), mother.getHealth()));
         }
 
+        if (plugin.configManager.breedActionbar) {
+            if (event.getBreeder() instanceof Player p) {
+                Scheduler.runTaskLater(() -> {
+                    if (babyScale != null) {
+                        Message.sendBreedActionbar(babyScale.getValue(), entity.getType().translationKey(), p);
+                    }
+                }, 1);
+            }
+        }
     }
 
 

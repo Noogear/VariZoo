@@ -19,6 +19,7 @@ public class ConfigManager {
     public Set<EntityType> animalSpawnBlacklistAnimal;
     public Set<String> animalSpawnBlacklistWorld;
     public Set<String> animalSpawnBlacklistSpawnReason;
+    public boolean breedActionbar;
     public boolean breedMultipleHurt;
     public Set<EntityType> breedBlacklistAnimal;
     public Set<String> breedBlacklistWorld;
@@ -55,6 +56,7 @@ public class ConfigManager {
         animalSpawnBlacklistWorld = new HashSet<>(Configuration.AnimalSpawn.blackList.world);
         animalSpawnBlacklistSpawnReason = new HashSet<>(Configuration.AnimalSpawn.blackList.spawnReason);
 
+        breedActionbar = !Configuration.Breed.inheritance.actionbar.isEmpty();
         breedMultipleHurt = !Configuration.Breed.multiple.hurt.isEmpty();
         breedBlacklistAnimal = Configuration.Breed.blackList.animal.stream()
                 .map(String::toUpperCase)

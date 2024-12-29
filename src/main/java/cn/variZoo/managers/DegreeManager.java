@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class DegreeManager {
 
-    private final Map<String, Degree> finalDegrees = new HashMap<String, Degree>();
+    private final Map<String, Degree> finalDegrees = new HashMap<>();
 
     public DegreeManager() {
         load();
@@ -30,9 +30,9 @@ public class DegreeManager {
                 double[] fixed = new double[0];
                 if (value.contains("-")) {
                     String[] range = value.replaceAll(" ", "").split("-");
-                    if (range.length == 2) {
+                    if (range.length >= 2) {
                         start = Double.parseDouble(range[0]);
-                        end = Double.parseDouble(range[1]);
+                        end = Double.parseDouble(range[range.length - 1]);
                     }
                 } else {
                     fixed = Arrays.stream(value.replaceAll(" ", "").split(",")).mapToDouble(Double::parseDouble).toArray();

@@ -52,6 +52,7 @@ public final class Main extends JavaPlugin {
             folia = false;
         }
         new  Cacheable();
+        new Message();
         configManager = new ConfigManager(this);
         listenerManager = new ListenerManager(this);
         degreeManager = new DegreeManager();
@@ -78,5 +79,6 @@ public final class Main extends JavaPlugin {
         listenerManager.reload();
         degreeManager.load();
         Expression.load();
+        Message.load();
     }
 }

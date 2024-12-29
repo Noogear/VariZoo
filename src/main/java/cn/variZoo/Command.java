@@ -32,17 +32,17 @@ public class Command implements CommandExecutor, TabCompleter {
         }
 
         if (!sender.hasPermission("varizoo." + args[0])) {
-            Message.send(sender, "你没有权限执行此命令!");
+            Message.sendMsg(sender, "你没有权限执行此命令!");
             return true;
         }
 
         switch (args[0].toLowerCase()) {
             case "reload":
                 long startTime = System.currentTimeMillis();
-                Message.send(sender, "插件重启中...");
+                Message.sendMsg(sender, "插件重启中...");
                 plugin.reload();
                 long elapsedTime = System.currentTimeMillis() - startTime;
-                Message.send(sender, "VariZoo重启完成，耗时 " + elapsedTime + " ms");
+                Message.sendMsg(sender, "VariZoo重启完成，耗时 " + elapsedTime + " ms");
                 break;
             case "help":
                 Message.showHelp(sender);

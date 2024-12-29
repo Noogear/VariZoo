@@ -10,7 +10,7 @@ import java.util.List;
 public class Configuration extends ConfigurationFile {
 
     @Comment("版本号")
-    public static int version = 2;
+    public static int version = 3;
 
     @Comment("总开关")
     public static boolean enabled = true;
@@ -34,7 +34,7 @@ public class Configuration extends ConfigurationFile {
         public static class Basic extends ConfigurationPart {
 
             @Comment({"动物生成时附带体型大小的概率",
-                    "设置为0或者负数禁用，最大为100"})
+                    "设置为0或者负数禁用, 最大为100"})
             public double apply = 50.0;
 
             @Comment({"体型变化值",
@@ -45,7 +45,7 @@ public class Configuration extends ConfigurationFile {
 
         public static class Mutant extends ConfigurationPart {
 
-            @Comment({"变异的概率", "设置为0或者负数禁用，最大为100"})
+            @Comment({"变异的概率", "设置为0或者负数禁用, 最大为100"})
             public double apply = 3.0;
             @Comment({"MULTIPLY: 简单相乘", "MORE: 自适应, 大的更大, 小的更小"})
             public String mode = "MORE";
@@ -57,7 +57,7 @@ public class Configuration extends ConfigurationFile {
 
             public static class Particle extends ConfigurationPart {
 
-                @Comment("类型，留空禁用")
+                @Comment("类型, 留空禁用")
                 public String type = "GLOW";
 
                 @Comment("数量")
@@ -77,7 +77,7 @@ public class Configuration extends ConfigurationFile {
 
             @Comment({"不受影响的生成原因",
                     "https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/CreatureSpawnEvent.SpawnReason.html"})
-            public List<String> spawnReason = List.of("BREEDING", "SPAWNER");
+            public List<String> spawnReason = List.of( "SPAWNER");
 
         }
 
@@ -89,30 +89,33 @@ public class Configuration extends ConfigurationFile {
         public static Inheritance inheritance = new Inheritance();
         @Comment("多胞胎功能")
         public static Multiple multiple = new Multiple();
-        @Comment({"黑名单", "给予玩家varizoo.skip.breed权限可以单独关闭遗传功能，防止一些生物牧场被破坏"})
+        @Comment({"黑名单", "给予玩家varizoo.skip.breed权限可以单独关闭遗传功能, 防止一些生物牧场被破坏"})
         public static BlackList blackList = new BlackList();
 
         public static class Inheritance extends ConfigurationPart {
 
-            @Comment({"父母对孩子体型的影响", "可使用复杂的公式，留空时禁用", "可用变量：{father}、{mother}父母的体型，{degree}对应下方比例"})
+            @Comment({"父母对孩子体型的影响", "可使用复杂的公式, 留空时禁用", "可用变量：{father}、{mother}父母的体型, {degree}对应下方比例"})
             public String finalScale = "({father} * 1.1 + {mother} * 1.2) / {degree}";
 
-            @Comment("比例，配合上方的final-scale使用")
+            @Comment("比例, 配合上方的final-scale使用")
             public String degree = "2.0-2.6";
 
             @Comment("开启该选项会让宝宝不受animal-spawn的二次体型变化影响")
             public boolean skipAnimalSpawn = false;
+
+            @Comment({"当饲养出宝宝时的提示","仅支持minimessage颜色格式, 留空时禁用", "可用变量: {scale}体型, {baby}宝宝名称, {player}玩家名称"})
+            public String actionbar = "<white>新生命诞生啦! 是体型为<green> {scale} </green>的{baby}宝宝~</white>";
         }
 
         public static class Multiple extends ConfigurationPart {
 
-            @Comment({"多胞胎的概率", "设置为0或负数时禁止，最大为100", "注意不可过高，每次生育都会触发多胞胎判定，过高会一直生孩子导致卡服"})
+            @Comment({"多胞胎的概率", "设置为0或负数时禁止, 最大为100", "注意不可过高, 每次生育都会触发多胞胎判定, 过高会一直生孩子导致卡服"})
             public double apply = 9.0;
 
-            @Comment({"每次生孩子的间隔", "单位为tick，20ticks = 1s"})
+            @Comment({"每次生孩子的间隔", "单位为tick, 20ticks = 1s"})
             public int delay = 3;
 
-            @Comment({"启动多胞胎时，为了限制生育，每次生育都会扣除以下血量", "可使用复杂的公式，留空时禁用", "可用变量：{health}当前血量，{max_health}最大血量"})
+            @Comment({"启动多胞胎时, 为了限制生育, 每次生育都会扣除以下血量", "可使用复杂的公式, 留空时禁用", "可用变量：{health}当前血量, {max_health}最大血量"})
             public String hurt = "{health} * 0.05";
         }
 
@@ -128,16 +131,16 @@ public class Configuration extends ConfigurationFile {
 
     public static class Other extends ConfigurationPart {
 
-        @Comment("体型对最大生命的影响，会等比例变化生命值")
+        @Comment("体型对最大生命的影响, 会等比例变化生命值")
         public boolean effectHealth = true;
 
-        @Comment("动物转变时是否保留体型，比如猪被雷劈变成猪灵，依旧会继承体型")
+        @Comment("动物转变时是否保留体型, 比如猪被雷劈变成猪灵, 依旧会继承体型")
         public boolean transform = true;
 
-        @Comment("蝾螈、鱼等动物装进桶后放出会失去原有的体型，该功能可以保留体型，会修正鱼桶和发射器")
+        @Comment("蝾螈、鱼等动物装进桶后放出会失去原有的体型, 该功能可以保留体型, 会修正鱼桶和发射器")
         public boolean bucketFishFix = true;
 
-        @Comment({"使动物的掉落物数量乘以以下值", "可使用复杂的公式，留空时禁用", "可用变量：{scale}生物体型"})
+        @Comment({"使动物的掉落物数量乘以以下值", "可使用复杂的公式, 留空时禁用", "可用变量：{scale}生物体型"})
         public String increaseDrops = "sqrt({scale})";
     }
 }
