@@ -15,8 +15,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityBreedEvent;
 import redempt.crunch.CompiledExpression;
-import redempt.crunch.Crunch;
-import redempt.crunch.functional.EvaluationEnvironment;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,17 +22,16 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class AnimalBreed implements Listener {
 
+    private final CompiledExpression breedFinalScaleExpression;
+    private final CompiledExpression breedHurtExpression;
     private Degree breedInheritanceDegree;
     private String breedActionbar;
     private boolean breedActionbarEnabled;
     private boolean multipleHurtEnabled;
     private Set<EntityType> blacklistEntity;
     private Set<String> blacklistWorld;
-    private CompiledExpression breedFinalScaleExpression;
-    private CompiledExpression breedHurtExpression;
 
     public AnimalBreed() {
-
 
         try {
             breedInheritanceDegree = DataUtil.saveDegree(Configuration.Breed.inheritance.degree);
@@ -49,25 +46,9 @@ public class AnimalBreed implements Listener {
             XLogger.err(e.getMessage());
         }
 
-        try {
-            String expression = Configuration.Breed.inheritance.finalScale.replace(" ", "").replaceAll("\\{([^}]*)}", "$1");
-            EvaluationEnvironment env = new EvaluationEnvironment();
-            env.setVariableNames("father", "mother", "degree");
-            breedFinalScaleExpression = Crunch.compileExpression(expression, env);
-            breedFinalScaleExpression.evaluate(1, 1, 1);
-        } catch (Exception e) {
-            XLogger.err(e.getMessage());
-        }
+        breedFinalScaleExpression = DataUtil.buildExpression(Configuration.Breed.inheritance.finalScale, "father", "mother", "degree");
+        breedHurtExpression = DataUtil.buildExpression(Configuration.Breed.multiple.hurt, "max_health", "health");
 
-        try {
-            String expression = Configuration.Breed.multiple.hurt.replace(" ", "").replaceAll("\\{([^}]*)}", "$1");
-            EvaluationEnvironment env = new EvaluationEnvironment();
-            env.setVariableNames("max_health", "health");
-            breedHurtExpression = Crunch.compileExpression(expression, env);
-            breedHurtExpression.evaluate(1, 1);
-        } catch (Exception e) {
-            XLogger.err(e.getMessage());
-        }
     }
 
     @EventHandler(ignoreCancelled = true)

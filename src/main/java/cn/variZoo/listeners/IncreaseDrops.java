@@ -1,8 +1,8 @@
 package cn.variZoo.listeners;
 
 import cn.variZoo.Configuration;
+import cn.variZoo.utils.DataUtil;
 import cn.variZoo.utils.EntityUtil;
-import cn.variZoo.utils.XLogger;
 import org.bukkit.entity.Animals;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -10,25 +10,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import redempt.crunch.CompiledExpression;
-import redempt.crunch.Crunch;
-import redempt.crunch.functional.EvaluationEnvironment;
 
 import java.util.List;
 
 public class IncreaseDrops implements Listener {
 
-    private CompiledExpression increaseDropsExpression;
+    private final CompiledExpression increaseDropsExpression;
 
     public IncreaseDrops() {
-        try {
-            String expression = Configuration.Breed.multiple.hurt.replace(" ", "").replaceAll("\\{([^}]*)}", "$1");
-            EvaluationEnvironment env = new EvaluationEnvironment();
-            env.setVariableNames("scale");
-            increaseDropsExpression = Crunch.compileExpression(expression, env);
-            increaseDropsExpression.evaluate(1);
-        } catch (Exception e) {
-            XLogger.err(e.getMessage());
-        }
+
+        increaseDropsExpression = DataUtil.buildExpression(Configuration.Breed.multiple.hurt, "scale");
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
