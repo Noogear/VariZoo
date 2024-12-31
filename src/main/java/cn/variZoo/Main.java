@@ -2,13 +2,13 @@ package cn.variZoo;
 
 import cn.variZoo.managers.FileManager;
 import cn.variZoo.managers.ListenerManager;
-import cn.variZoo.utils.*;
+import cn.variZoo.utils.EntityUtil;
+import cn.variZoo.utils.Message;
+import cn.variZoo.utils.Scheduler;
+import cn.variZoo.utils.XLogger;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.Locale;
 
 public final class Main extends JavaPlugin {
     public FileManager fileManager;
@@ -24,7 +24,7 @@ public final class Main extends JavaPlugin {
         boolean enabled = false;
         for (Attribute attribute : Attribute.values()) {
             if (attribute.name().toLowerCase().contains("scale")) {
-                new EntityUtil(this,attribute);
+                new EntityUtil(this, attribute);
                 enabled = true;
             }
         }

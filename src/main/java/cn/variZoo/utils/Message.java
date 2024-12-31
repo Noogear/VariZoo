@@ -45,6 +45,10 @@ public class Message {
         sender.sendMessage(buildMsg(message));
     }
 
+    public static void sendMsg(CommandSender sender, String message, Object... args) {
+        sender.sendMessage(buildMsg(String.format(message, args)));
+    }
+
     public static void showHelp(CommandSender sender) {
         sendMsg(sender, instance.help);
 
