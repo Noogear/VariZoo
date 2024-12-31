@@ -10,3 +10,7 @@
 1.21.1
 <h4>Support:</h4>
 Paper, folia
+<h4>Wiki:</h4>
+https://gloomcraft.gitbook.io/varizoo
+<h4>Test Server:</h4>
+gloom.top
