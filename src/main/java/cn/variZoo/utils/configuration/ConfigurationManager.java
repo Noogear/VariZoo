@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Utility class for loading and saving configuration files.
@@ -13,6 +14,18 @@ import java.util.List;
  * This class uses reflection to read and write configuration files. Capable of reading and writing nested configuration parts.
  */
 public class ConfigurationManager {
+
+    public static boolean zh = false;
+
+    public ConfigurationManager() {
+        try {
+            if (System.getProperty("user.language").toLowerCase().contains("zh") || Locale.getDefault().getLanguage().toLowerCase().contains("zh")) {
+                zh = true;
+            }
+        } catch (Exception e) {
+            XLogger.err(e.getMessage());
+        }
+    }
 
     /**
      * Load the configuration file.
@@ -78,7 +91,7 @@ public class ConfigurationManager {
             }
             // if field is extending ConfigurationPart, recursively write the content
             if (ConfigurationPart.class.isAssignableFrom(field.getType())) {
-                XLogger.info("%s is a ConfigurationPart.", field.getName());
+                XLogger.info("ConfigurationPart %s loaded.", field.getName());
                 writeConfigurationPart(yaml, (ConfigurationPart) field.get(null), key);
             } else {
                 XLogger.info("Writing %s to %s.", field.getName(), key);
@@ -100,7 +113,11 @@ public class ConfigurationManager {
                 yaml.set(newKey, field.get(obj));
             }
             if (field.isAnnotationPresent(Comment.class)) {
-                yaml.setComments(newKey, List.of(field.getAnnotation(Comment.class).value()));
+                if (zh) {
+                    yaml.setComments(newKey, List.of(field.getAnnotation(Comment.class).cn_value()));
+                } else {
+                    yaml.setComments(newKey, List.of(field.getAnnotation(Comment.class).value()));
+                }
             }
         }
     }
@@ -113,6 +130,7 @@ public class ConfigurationManager {
     }
 
     private static void readConfigurationFile(YamlConfiguration yaml, Class<? extends ConfigurationFile> clazz, String prefix) throws Exception {
+        boolean nullKey = false;
         for (Field field : clazz.getFields()) {
             field.setAccessible(true);
             String key = camelToKebab(field.getName());
@@ -120,7 +138,8 @@ public class ConfigurationManager {
                 key = prefix + "." + key;
             }
             if (!yaml.contains(key)) {
-                XLogger.warn("Can't find %s from %s.", field.getName(), key);
+                yaml.set(key, field.get(null));
+                nullKey = true;
                 continue;
             }
             if (ConfigurationPart.class.isAssignableFrom(field.getType())) {
@@ -129,6 +148,9 @@ public class ConfigurationManager {
                 field.set(null, yaml.get(key));
             }
         }
+        if (nullKey) {
+            yaml.save(new File(yaml.getCurrentPath()));
+        }
     }
 
     private static void readConfigurationPart(YamlConfiguration yaml, ConfigurationPart obj, String key) throws Exception {
@@ -136,7 +158,6 @@ public class ConfigurationManager {
             field.setAccessible(true);
             String newKey = key + "." + camelToKebab(field.getName());
             if (!yaml.contains(newKey)) {
-                XLogger.warn("Can't find %s from %s.", field.getName(), key);
                 continue;
             }
             if (ConfigurationPart.class.isAssignableFrom(field.getType())) {

@@ -11,7 +11,6 @@ public class DataUtil {
         instance = this;
     }
 
-
     public static CompiledExpression buildExpression(String expression, String... variables) {
         try {
             String exp = expression.replace(" ", "").replaceAll("\\{([^}]*)}", "$1");

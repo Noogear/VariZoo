@@ -48,11 +48,8 @@ public class AnimalSpawn implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onSpawn(CreatureSpawnEvent event) {
         if (!(event.getEntity() instanceof Animals entity)) return;
-
         if (isInvalidSpawn(entity, event.getSpawnReason())) return;
-
         if (EntityUtil.isInvalid(entity)) return;
-
         if (ThreadLocalRandom.current().nextInt(100) > Configuration.AnimalSpawn.basic.apply) return;
 
         AttributeInstance scale = entity.getAttribute(EntityUtil.getScaleAttribute());

@@ -1,14 +1,17 @@
 package cn.variZoo;
 
-import cn.variZoo.managers.ConfigManager;
+import cn.variZoo.managers.FileManager;
 import cn.variZoo.managers.ListenerManager;
 import cn.variZoo.utils.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Locale;
+
 public final class Main extends JavaPlugin {
-    public ConfigManager configManager;
+    public FileManager fileManager;
     public ListenerManager listenerManager;
     private boolean folia;
 
@@ -48,9 +51,10 @@ public final class Main extends JavaPlugin {
         } catch (ClassNotFoundException e) {
             folia = false;
         }
-        new Message();
-        configManager = new ConfigManager(this);
+        fileManager = new FileManager(this);
         listenerManager = new ListenerManager(this);
+        new Message();
+        new Scheduler(this);
 
         PluginCommand mainCommand = getCommand("varizoo");
         if (mainCommand != null) {
@@ -58,8 +62,6 @@ public final class Main extends JavaPlugin {
         } else {
             XLogger.err("Failed to load command.");
         }
-
-        new Scheduler(this);
 
         long elapsedTime = System.currentTimeMillis() - startTime;
         XLogger.info("Plugin loaded successfully in " + elapsedTime + " ms");
@@ -76,7 +78,7 @@ public final class Main extends JavaPlugin {
 
     public void reload() {
         Scheduler.cancelAll();
-        configManager.load();
+        fileManager.load();
         listenerManager.reload();
     }
 }
