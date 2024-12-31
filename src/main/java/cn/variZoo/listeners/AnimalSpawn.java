@@ -1,7 +1,10 @@
 package cn.variZoo.listeners;
 
 import cn.variZoo.Configuration;
-import cn.variZoo.utils.*;
+import cn.variZoo.utils.Degree;
+import cn.variZoo.utils.EntityUtil;
+import cn.variZoo.utils.Scheduler;
+import cn.variZoo.utils.XLogger;
 import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;

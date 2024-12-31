@@ -6,7 +6,6 @@ import cn.variZoo.Main;
 import cn.variZoo.utils.configuration.ConfigurationManager;
 
 import java.io.File;
-import java.util.Locale;
 
 public class FileManager {
     private final File configFile;
