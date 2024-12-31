@@ -30,8 +30,8 @@ public class AnimalSpawn implements Listener {
     public AnimalSpawn() {
 
         try {
-            animalBasicDegree = DataUtil.saveDegree(Configuration.AnimalSpawn.basic.degree);
-            animalMutantDegree = DataUtil.saveDegree(Configuration.AnimalSpawn.mutant.degree);
+            animalBasicDegree = Degree.build(Configuration.AnimalSpawn.basic.degree);
+            animalMutantDegree = Degree.build(Configuration.AnimalSpawn.mutant.degree);
             mutantparticle = Particle.valueOf(Configuration.AnimalSpawn.Mutant.particle.type.toUpperCase(Locale.ROOT));
             mutantParticleEnabled = !(Configuration.AnimalSpawn.Mutant.particle.type.isEmpty() && Configuration.AnimalSpawn.Mutant.particle.count < 1);
             blackListWorld = new HashSet<>(Configuration.AnimalSpawn.blackList.world);

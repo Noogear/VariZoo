@@ -34,7 +34,7 @@ public class AnimalBreed implements Listener {
     public AnimalBreed() {
 
         try {
-            breedInheritanceDegree = DataUtil.saveDegree(Configuration.Breed.inheritance.degree);
+            breedInheritanceDegree = Degree.build(Configuration.Breed.inheritance.degree);
             breedActionbar = Configuration.Breed.inheritance.actionbar
                     .replace("{", "<")
                     .replace("}", ">");
