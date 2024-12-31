@@ -43,7 +43,6 @@ public final class Main extends JavaPlugin {
         XLogger.info(" ╚████╔╝ ██║  ██║██║  ██║██║███████╗╚██████╔╝╚██████╔╝");
         XLogger.info("  ╚═══╝  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚══════╝ ╚═════╝  ╚═════╝ ");
         XLogger.info("https://github.com/Noogear/VariZoo");
-        XLogger.info("Version: " + this.getDescription().getVersion());
 
         try {
             Class.forName("io.papermc.paper.threadedregions.RegionizedServer");

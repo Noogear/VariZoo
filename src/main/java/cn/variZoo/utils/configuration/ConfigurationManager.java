@@ -17,16 +17,6 @@ public class ConfigurationManager {
 
     public static boolean zh = false;
 
-    public ConfigurationManager() {
-        try {
-            if (System.getProperty("user.language").toLowerCase().contains("zh") || Locale.getDefault().getLanguage().toLowerCase().contains("zh")) {
-                zh = true;
-            }
-        } catch (Exception e) {
-            XLogger.err(e.getMessage());
-        }
-    }
-
     /**
      * Load the configuration file.
      *
@@ -52,6 +42,13 @@ public class ConfigurationManager {
      * @throws Exception If failed to load the file.
      */
     public static void load(Class<? extends ConfigurationFile> clazz, File file, String versionFieldName) throws Exception {
+        try {
+            if (System.getProperty("user.language").toLowerCase().contains("zh") || Locale.getDefault().getLanguage().toLowerCase().contains("zh")) {
+                zh = true;
+            }
+        } catch (Exception e) {
+            XLogger.err(e.getMessage());
+        }
         Field versionField = clazz.getField(versionFieldName);
         int currentVersion = versionField.getInt(null);
         load(clazz, file);

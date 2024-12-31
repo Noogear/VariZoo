@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Comment {
-    String[] value() default {};
+    String[] value() default {""};
 
-    String[] cn_value() default {};
+    String[] cn_value() default {""};
 }

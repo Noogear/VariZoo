@@ -45,10 +45,9 @@ public class AnimalBreed implements Listener {
         } catch (Exception e) {
             XLogger.err(e.getMessage());
         }
-
         breedFinalScaleExpression = DataUtil.buildExpression(Configuration.Breed.inheritance.finalScale, "father", "mother", "degree");
         breedHurtExpression = DataUtil.buildExpression(Configuration.Breed.multiple.hurt, "max_health", "health");
-
+        
     }
 
     @EventHandler(ignoreCancelled = true)
