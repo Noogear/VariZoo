@@ -16,15 +16,13 @@ import java.util.stream.Collectors;
 public class EntityUtil {
 
     public static EntityUtil instance;
-    private final Main plugin;
     private final Attribute scaleAttribute;
     private final NamespacedKey invalidKey;
 
     public EntityUtil(Main main, Attribute scaleAttribute) {
         instance = this;
-        this.plugin = main;
         this.scaleAttribute = scaleAttribute;
-        this.invalidKey = new NamespacedKey(plugin, "invalid");
+        this.invalidKey = new NamespacedKey(main, "invalid");
     }
 
     public static Attribute getScaleAttribute() {

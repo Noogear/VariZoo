@@ -25,12 +25,20 @@ public class ConfigurationManager {
      * @throws Exception If failed to load the file.
      */
     public static void load(Class<? extends ConfigurationFile> clazz, File file) throws Exception {
+        try {
+            if (System.getProperty("user.language").toLowerCase().contains("zh") || Locale.getDefault().getLanguage().toLowerCase().contains("zh")) {
+                zh = true;
+            }
+        } catch (Exception e) {
+            XLogger.err(e.getMessage());
+        }
         if (!file.exists()) {
             save(clazz, file);
             return;
         }
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
         readConfigurationFile(yaml, clazz, null);
+        yaml.save(file);
     }
 
     /**
@@ -94,8 +102,8 @@ public class ConfigurationManager {
                 XLogger.info("Writing %s to %s.", field.getName(), key);
                 yaml.set(key, field.get(null));
             }
-            if (field.isAnnotationPresent(Comment.class)) {
-                yaml.setComments(key, List.of(field.getAnnotation(Comment.class).value()));
+            if (field.isAnnotationPresent(Comments.class)) {
+                setComments(yaml, key, field);
             }
         }
     }
@@ -109,12 +117,8 @@ public class ConfigurationManager {
             } else {
                 yaml.set(newKey, field.get(obj));
             }
-            if (field.isAnnotationPresent(Comment.class)) {
-                if (zh) {
-                    yaml.setComments(newKey, List.of(field.getAnnotation(Comment.class).cn_value()));
-                } else {
-                    yaml.setComments(newKey, List.of(field.getAnnotation(Comment.class).value()));
-                }
+            if (field.isAnnotationPresent(Comments.class)) {
+                setComments(yaml, newKey, field);
             }
         }
     }
@@ -134,6 +138,10 @@ public class ConfigurationManager {
                 key = prefix + "." + key;
             }
             if (!yaml.contains(key)) {
+                yaml.set(key, field.get(null));
+                if (field.isAnnotationPresent(Comments.class)) {
+                    setComments(yaml, key, field);
+                }
                 continue;
             }
             if (ConfigurationPart.class.isAssignableFrom(field.getType())) {
@@ -149,6 +157,10 @@ public class ConfigurationManager {
             field.setAccessible(true);
             String newKey = key + "." + camelToKebab(field.getName());
             if (!yaml.contains(newKey)) {
+                yaml.set(newKey, field.get(obj));
+                if (field.isAnnotationPresent(Comments.class)) {
+                    setComments(yaml, newKey, field);
+                }
                 continue;
             }
             if (ConfigurationPart.class.isAssignableFrom(field.getType())) {
@@ -167,6 +179,14 @@ public class ConfigurationManager {
      */
     private static String camelToKebab(String camel) {
         return camel.replaceAll("([a-z])([A-Z]+)", "$1-$2").toLowerCase();
+    }
+
+    private static void setComments(YamlConfiguration yaml, String key, Field field) {
+        if (zh) {
+            yaml.setComments(key, List.of(field.getAnnotation(Comments.class).cn_value()));
+        } else {
+            yaml.setComments(key, List.of(field.getAnnotation(Comments.class).value()));
+        }
     }
 
 }
