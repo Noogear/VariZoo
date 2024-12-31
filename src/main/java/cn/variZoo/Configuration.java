@@ -115,7 +115,7 @@ public class Configuration extends ConfigurationFile {
 
             @Comment(cn_value = "比例, 配合前一个final-scale使用",
                     value = "Used in conjunction with the previous 'final-scale'")
-            public String degree = "2.0-2.6";
+            public String degree = "2.1-2.5";
 
             @Comment(cn_value = "开启该选项会让宝宝不受animal-spawn的二次体型变化影响",
                     value = "Enabling this option will make the babies not be affected by the secondary body size change of animal-spawn")

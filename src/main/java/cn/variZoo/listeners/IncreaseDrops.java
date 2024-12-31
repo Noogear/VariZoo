@@ -1,7 +1,7 @@
 package cn.variZoo.listeners;
 
 import cn.variZoo.Configuration;
-import cn.variZoo.utils.DataUtil;
+import cn.variZoo.utils.ExpressionUtil;
 import cn.variZoo.utils.EntityUtil;
 import org.bukkit.entity.Animals;
 import org.bukkit.event.EventHandler;
@@ -19,7 +19,7 @@ public class IncreaseDrops implements Listener {
 
     public IncreaseDrops() {
 
-        increaseDropsExpression = DataUtil.buildExpression(Configuration.Breed.multiple.hurt, "scale");
+        increaseDropsExpression = ExpressionUtil.build(Configuration.Breed.multiple.hurt, "scale");
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)

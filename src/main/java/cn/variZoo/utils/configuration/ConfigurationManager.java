@@ -127,7 +127,6 @@ public class ConfigurationManager {
     }
 
     private static void readConfigurationFile(YamlConfiguration yaml, Class<? extends ConfigurationFile> clazz, String prefix) throws Exception {
-        boolean nullKey = false;
         for (Field field : clazz.getFields()) {
             field.setAccessible(true);
             String key = camelToKebab(field.getName());
@@ -135,8 +134,6 @@ public class ConfigurationManager {
                 key = prefix + "." + key;
             }
             if (!yaml.contains(key)) {
-                yaml.set(key, field.get(null));
-                nullKey = true;
                 continue;
             }
             if (ConfigurationPart.class.isAssignableFrom(field.getType())) {
@@ -144,9 +141,6 @@ public class ConfigurationManager {
             } else {
                 field.set(null, yaml.get(key));
             }
-        }
-        if (nullKey) {
-            yaml.save(new File(yaml.getCurrentPath()));
         }
     }
 

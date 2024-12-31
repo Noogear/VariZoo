@@ -2,10 +2,7 @@ package cn.variZoo;
 
 import cn.variZoo.managers.FileManager;
 import cn.variZoo.managers.ListenerManager;
-import cn.variZoo.utils.EntityUtil;
-import cn.variZoo.utils.Message;
-import cn.variZoo.utils.Scheduler;
-import cn.variZoo.utils.XLogger;
+import cn.variZoo.utils.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -51,9 +48,10 @@ public final class Main extends JavaPlugin {
             folia = false;
         }
         fileManager = new FileManager(this);
+        new Scheduler(this);
+        new ExpressionUtil();
         listenerManager = new ListenerManager(this);
         new Message();
-        new Scheduler(this);
 
         PluginCommand mainCommand = getCommand("varizoo");
         if (mainCommand != null) {
@@ -79,5 +77,6 @@ public final class Main extends JavaPlugin {
         Scheduler.cancelAll();
         fileManager.load();
         listenerManager.reload();
+        Message.load();
     }
 }
