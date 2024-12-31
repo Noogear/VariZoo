@@ -1,5 +1,5 @@
 <h1>VariZoo</h1>
-<h2>An Animal Gameplay Expansion Plugin Based on Vanilla Gameplay</h2>
+<h2>An animal gameplay expansion plugin based on vanilla.</h2>
 
 <h3>Introduction:</h3>
 <p>This plugin introduces size transformations for various animals, making them closer to the creatures of different sizes in the real world. </p>
