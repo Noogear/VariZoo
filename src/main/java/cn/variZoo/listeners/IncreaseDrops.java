@@ -18,8 +18,7 @@ public class IncreaseDrops implements Listener {
     private final CompiledExpression increaseDropsExpression;
 
     public IncreaseDrops() {
-
-        increaseDropsExpression = ExpressionUtil.build(Configuration.Breed.multiple.hurt, "scale");
+        increaseDropsExpression = ExpressionUtil.build(Configuration.other.increaseDrops, "scale");
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)

@@ -49,7 +49,6 @@ public final class Main extends JavaPlugin {
         }
         fileManager = new FileManager(this);
         new Scheduler(this);
-        new ExpressionUtil();
         listenerManager = new ListenerManager(this);
         new Message();
 
