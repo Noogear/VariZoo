@@ -15,7 +15,7 @@ permissions:
     description: Allow the player to reload the plugin.
     default: op
   varizoo.help:
-    description: Allow the player to reload the plugin.
+    description: Allow the player to get the help.
     default: true
   varizoo.skip.breed:
     description: Allow the player to breed animal without scale.
