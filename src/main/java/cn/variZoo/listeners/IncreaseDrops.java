@@ -22,7 +22,7 @@ public class IncreaseDrops implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
-    public void onEvent(EntityDeathEvent event) {
+    public void onEntityDeath(EntityDeathEvent event) {
         if (!(event.getEntity() instanceof Animals entity)) return;
         double scale = entity.getAttribute(EntityUtil.getScaleAttribute()).getValue();
         if (scale == 1) return;

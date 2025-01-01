@@ -42,11 +42,15 @@ public class Message {
     }
 
     public static void sendMsg(CommandSender sender, String message) {
-        sender.sendMessage(buildMsg(message));
+        Scheduler.runTaskAsync(()->{
+            sender.sendMessage(buildMsg(message));
+        });
     }
 
     public static void sendMsg(CommandSender sender, String message, Object... args) {
-        sender.sendMessage(buildMsg(String.format(message, args)));
+        Scheduler.runTaskAsync(()->{
+            sender.sendMessage(buildMsg(String.format(message, args)));
+        });
     }
 
     public static void showHelp(CommandSender sender) {

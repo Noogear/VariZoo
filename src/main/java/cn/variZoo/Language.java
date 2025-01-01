@@ -13,8 +13,6 @@ public class Language extends ConfigurationFile {
 
     public static List<String> help = Arrays.asList("VariZoo Help", "Commands:", "<yellow>/Varizoo reload</yellow> - Reload the plugin.", "<yellow>/Varizoo help</yellow> - Get the plugin's help.");
 
-    public static String reload = "<green>[VariZoo]</green> Plugin is reloading...";
-
     public static String reloadCompleted = "<green>[VariZoo]</green> Plugin reload completed. Time taken: %s ms";
 
 

@@ -38,7 +38,6 @@ public class Command implements CommandExecutor, TabCompleter {
         switch (args[0].toLowerCase()) {
             case "reload":
                 long startTime = System.currentTimeMillis();
-                Message.sendMsg(sender, Language.reload);
                 plugin.reload();
                 long elapsedTime = System.currentTimeMillis() - startTime;
                 Message.sendMsg(sender, Language.reloadCompleted, elapsedTime);
