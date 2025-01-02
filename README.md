@@ -5,7 +5,6 @@
 <p>This plugin introduces size transformations for various animals, making them closer to the creatures of different sizes in the real world. </p>
 <p>Players can also enable the next generation to inherit the size through animal mating and ultimately breed super-large animals!</p>
 <p>All values of the plugin can be customized.</p>
-![QQ20250102-105029](https://github.com/user-attachments/assets/a99d3824-8b2c-4f42-a8dc-3d38c28e1012)
 
 
 <h4>Tested Version:</h4>
