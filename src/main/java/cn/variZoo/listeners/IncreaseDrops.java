@@ -25,11 +25,12 @@ public class IncreaseDrops implements Listener {
     public void onEntityDeath(EntityDeathEvent event) {
         if (!(event.getEntity() instanceof Animals entity)) return;
         double scale = entity.getAttribute(EntityUtil.getScaleAttribute()).getValue();
-        if (scale == 1) return;
-        double increase = increaseDropsExpression.evaluate(scale);
-        List<ItemStack> drops = event.getDrops();
-        for (ItemStack drop : drops) {
-            drop.setAmount((int) Math.round(drop.getAmount() * increase));
+        if (scale != 1) {
+            double increase = increaseDropsExpression.evaluate(scale);
+            List<ItemStack> drops = event.getDrops();
+            for (ItemStack drop : drops) {
+                drop.setAmount((int) Math.round(drop.getAmount() * increase));
+            }
         }
     }
 
