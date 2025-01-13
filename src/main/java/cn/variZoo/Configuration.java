@@ -130,7 +130,7 @@ public class Configuration extends ConfigurationFile {
 
             @Comments(cn_value = {"多胞胎的概率", "设置为0或负数时禁止, 最大为100", "注意不可过高, 每次生育都会触发多胞胎判定, 过高会一直生孩子导致卡服"},
                     value = {"The probability of multiple births", "Prohibited when set to 0 or a negative number. The maximum is 100", "Note that it should not be too high. The determination of multiple births is triggered every time breeding occurs. If it is too high, it will keep giving birth to children and cause the server to lag"})
-            public double apply = 9.0;
+            public double apply = 12.0;
 
             @Comments(cn_value = {"每次生孩子的间隔", "单位为tick, 20ticks = 1s"},
                     value = {"The interval between each childbirth", "The unit is ticks, 20 ticks = 1 second"})
@@ -138,7 +138,7 @@ public class Configuration extends ConfigurationFile {
 
             @Comments(cn_value = {"启动多胞胎时, 为了限制生育, 每次生育都会扣除以下血量", "可使用复杂的公式, 留空时禁用", "可用变量：{health}当前血量, {max_health}最大血量"},
                     value = {"When enabling multiple births, in order to limit breeding, the following amount of health will be deducted each time breeding occurs", "Complex formulas can be used. Disable when left blank", "Available variables: {health} current health, {max_health} maximum health"})
-            public String hurt = "{health} * 0.05";
+            public String hurt = "{health} * 0.04";
         }
 
         public static class BlackList extends ConfigurationPart {

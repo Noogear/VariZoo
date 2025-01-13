@@ -26,6 +26,7 @@ public class AnimalSpawn implements Listener {
     private final Set<CreatureSpawnEvent.SpawnReason> blackListSpawnReason;
     private Degree animalBasicDegree;
     private Degree animalMutantDegree;
+    private boolean mutantModeIsMore;
     private boolean mutantParticleEnabled;
     private Particle mutantparticle;
     private Set<String> blackListWorld;
@@ -35,6 +36,7 @@ public class AnimalSpawn implements Listener {
         try {
             animalBasicDegree = Degree.build(Configuration.AnimalSpawn.basic.degree);
             animalMutantDegree = Degree.build(Configuration.AnimalSpawn.mutant.degree);
+            mutantModeIsMore = Objects.equals(Configuration.AnimalSpawn.mutant.mode, "MORE");
             mutantparticle = Particle.valueOf(Configuration.AnimalSpawn.Mutant.particle.type.toUpperCase(Locale.ROOT));
             mutantParticleEnabled = !(Configuration.AnimalSpawn.Mutant.particle.type.isEmpty() && Configuration.AnimalSpawn.Mutant.particle.count < 1);
             blackListWorld = new HashSet<>(Configuration.AnimalSpawn.blackList.world);
@@ -62,7 +64,7 @@ public class AnimalSpawn implements Listener {
 
         if (ThreadLocalRandom.current().nextInt(100) < Configuration.AnimalSpawn.mutant.apply) {
             double randomMutant = animalMutantDegree.getRandom();
-            if (Objects.equals(Configuration.AnimalSpawn.mutant.mode, "MORE")) {
+            if (mutantModeIsMore) {
                 if ((randomScale >= 1 && randomMutant < 1) || (randomScale < 1 && randomMutant >= 1)) {
                     randomMutant = 1 / randomMutant;
                 }

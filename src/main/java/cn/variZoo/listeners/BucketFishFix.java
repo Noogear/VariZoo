@@ -96,10 +96,11 @@ public class BucketFishFix implements Listener {
         double scale = pdc.getOrDefault(scaleKey, PersistentDataType.DOUBLE, 1.0);
         if (scale == 1.0) return;
         Block block = event.getBlock();
-        Location loc = block.getLocation().add(0.5, 0, 0.5);
+        int y = 0;
         if (block.getBlockData() instanceof Waterlogged) {
-            loc.add(0, 1, 0);
+            y = 1;
         }
+        Location loc = block.getLocation().add(0.5, y, 0.5);
         fishScale.put(loc, scale);
     }
 
@@ -113,10 +114,11 @@ public class BucketFishFix implements Listener {
         if (scale == 1.0) return;
         BlockFace facing = ((Directional) event.getBlock().getBlockData()).getFacing();
         Block block = event.getBlock().getRelative(facing);
-        Location loc = block.getLocation().add(0.5, 0, 0.5);
+        int y = 0;
         if (block.getBlockData() instanceof Waterlogged) {
-            loc.add(0, 1, 0);
+            y = 1;
         }
+        Location loc = block.getLocation().add(0.5, y, 0.5);
         fishScale.put(loc, scale);
     }
 
