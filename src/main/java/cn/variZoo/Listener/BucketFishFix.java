@@ -93,32 +93,31 @@ public class BucketFishFix implements Listener {
         ItemStack bucket = event.getPlayer().getInventory().getItem(event.getHand());
         PersistentDataContainer pdc = bucket.getItemMeta().getPersistentDataContainer();
         double scale = pdc.getOrDefault(scaleKey, PersistentDataType.DOUBLE, 1.0);
-        if (scale == 1.0) return;
+        if (scale == 1) return;
         Block block = event.getBlock();
         int y = 0;
         if (block.getBlockData() instanceof Waterlogged) {
             y = 1;
         }
-        Location loc = block.getLocation().add(0.5, y, 0.5);
-        fishScale.put(loc, scale);
+        fishScale.put(block.getLocation().add(0.5, y, 0.5), scale);
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onDispenser(BlockDispenseEvent event) {
-        if (event.getBlock().getType() != Material.DISPENSER) return;
+        Block block = event.getBlock();
+        if (block.getType() != Material.DISPENSER) return;
         if (!fishBucket.contains(event.getItem().getType())) return;
         ItemStack bucket = event.getItem();
         PersistentDataContainer pdc = bucket.getItemMeta().getPersistentDataContainer();
         double scale = pdc.getOrDefault(scaleKey, PersistentDataType.DOUBLE, 1.0);
-        if (scale == 1.0) return;
-        BlockFace facing = ((Directional) event.getBlock().getBlockData()).getFacing();
-        Block block = event.getBlock().getRelative(facing);
+        if (scale == 1) return;
+        BlockFace facing = ((Directional) block.getBlockData()).getFacing();
+        Block targetBlock = block.getRelative(facing);
         int y = 0;
-        if (block.getBlockData() instanceof Waterlogged) {
+        if (targetBlock.getBlockData() instanceof Waterlogged) {
             y = 1;
         }
-        Location loc = block.getLocation().add(0.5, y, 0.5);
-        fishScale.put(loc, scale);
+        fishScale.put(block.getLocation().add(0.5, y, 0.5), scale);
     }
 
     private double getFishScale(Location loc) {
