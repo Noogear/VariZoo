@@ -40,6 +40,17 @@
                   </excludes>
                 </filter>
               </filters>
+              <transformers>
+                <transformer>
+                  <resource>META-INF/services/*</resource>
+                </transformer>
+              </transformers>
+              <relocations>
+                <relocation>
+                  <pattern>com.github.Redempt.Crunch</pattern>
+                  <shadedPattern>cn.variZoo.Redempt.Crunch</shadedPattern>
+                </relocation>
+              </relocations>
             </configuration>
           </execution>
         </executions>
