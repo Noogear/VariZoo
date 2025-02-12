@@ -1,4 +1,4 @@
-package cn.variZoo.utils.configuration;
+package cn.variZoo.Configuration.Form;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

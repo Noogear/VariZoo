@@ -1,0 +1,136 @@
+package cn.variZoo.Listener;
+
+import cn.variZoo.Configuration.File.Config;
+import cn.variZoo.Util.Degree;
+import cn.variZoo.Util.EntityUtil;
+import cn.variZoo.Util.ExpressionUtil;
+import cn.variZoo.Util.Scheduler.IScheduler;
+import cn.variZoo.Util.Scheduler.XScheduler;
+import cn.variZoo.Util.XLogger;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.entity.Animals;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityBreedEvent;
+import redempt.crunch.CompiledExpression;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
+public class AnimalBreed implements Listener {
+
+    private final CompiledExpression breedFinalScaleExpression;
+    private final CompiledExpression breedHurtExpression;
+    private final IScheduler scheduler;
+    private Degree breedInheritanceDegree;
+    private String breedActionbar;
+    private boolean breedActionbarEnabled;
+    private boolean multipleHurtEnabled;
+    private Set<EntityType> blacklistEntity;
+    private Set<String> blacklistWorld;
+
+    public AnimalBreed() {
+
+        try {
+            breedInheritanceDegree = Degree.build(Config.Breed.inheritance.degree);
+            breedActionbar = Config.Breed.inheritance.actionbar
+                    .replace("{", "<")
+                    .replace("}", ">");
+            breedActionbarEnabled = !breedActionbar.isEmpty();
+            multipleHurtEnabled = !Config.Breed.multiple.hurt.isEmpty();
+            blacklistEntity = EntityUtil.entityToSet(Config.Breed.blackList.animal);
+            blacklistWorld = new HashSet<>(Config.Breed.blackList.world);
+        } catch (Exception e) {
+            XLogger.err(e.getMessage());
+        }
+
+        breedFinalScaleExpression = ExpressionUtil.build(Config.Breed.inheritance.finalScale, "father", "mother", "degree");
+        breedHurtExpression = ExpressionUtil.build(Config.Breed.multiple.hurt, "max_health", "health");
+        scheduler = XScheduler.get();
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onBreed(EntityBreedEvent event) {
+        if (!(event.getEntity() instanceof Animals entity)) return;
+
+        if (isInvalidBreed(entity, event.getBreeder())) return;
+
+        Animals mother = (Animals) event.getMother();
+        Animals father = (Animals) event.getFather();
+
+        double degree = breedInheritanceDegree.getRandom();
+
+        double birthScale = breedFinalScaleExpression.evaluate(
+                father.getAttribute(EntityUtil.getScaleAttribute()).getValue(),
+                mother.getAttribute(EntityUtil.getScaleAttribute()).getValue(),
+                degree
+        );
+
+        AttributeInstance babyScale = entity.getAttribute(EntityUtil.getScaleAttribute());
+
+        if (babyScale != null) {
+            babyScale.setBaseValue(birthScale * babyScale.getValue());
+        }
+
+        if (Config.Breed.inheritance.skipAnimalSpawn) {
+            EntityUtil.setInvalid(entity);
+        }
+
+        if (Config.other.effectHealth) {
+            AttributeInstance babyHealth = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+            if (babyHealth == null) return;
+            double finalHealth = birthScale * babyHealth.getValue();
+            babyHealth.setBaseValue(finalHealth);
+            entity.setHealth(finalHealth);
+        }
+
+        double multiple = Config.Breed.multiple.apply;
+        if (multiple > 0) {
+            scheduler.runTaskLater(() -> {
+                if (ThreadLocalRandom.current().nextInt(100) > multiple) return;
+                mother.setLoveModeTicks(100);
+                father.setLoveModeTicks(100);
+            }, Config.Breed.multiple.delay);
+        }
+
+        if (multipleHurtEnabled) {
+            father.damage(breedHurtExpression.evaluate(father.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), father.getHealth()));
+            mother.damage(breedHurtExpression.evaluate(mother.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), mother.getHealth()));
+        }
+
+        if (breedActionbarEnabled) {
+            if (event.getBreeder() instanceof Player p) {
+                scheduler.runTaskLater(() -> {
+                    if (babyScale != null) {
+                        Component actionbar = MiniMessage.miniMessage().deserialize(breedActionbar,
+                                Placeholder.parsed("scale", String.format("%.2f", babyScale.getValue())),
+                                Placeholder.parsed("baby", EntityUtil.getI18nName(entity)),
+                                Placeholder.parsed("player", p.getName())
+                        );
+                        p.sendActionBar(actionbar);
+                    }
+                }, 1);
+            }
+        }
+    }
+
+
+    private boolean isInvalidBreed(Animals e, LivingEntity p) {
+        if (blacklistWorld.contains(e.getWorld().getName())) return true;
+        if (blacklistEntity.contains(e.getType())) return true;
+        if (p instanceof Player player) {
+            if (player.hasPermission("varizoo.skip.breed")) {
+                return !player.isOp();
+            }
+        }
+        return false;
+    }
+}

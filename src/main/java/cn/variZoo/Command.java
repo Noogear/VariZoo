@@ -1,6 +1,7 @@
 package cn.variZoo;
 
-import cn.variZoo.utils.Message;
+import cn.variZoo.Configuration.File.Language;
+import cn.variZoo.Util.Message;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;

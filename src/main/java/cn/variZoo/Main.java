@@ -1,8 +1,9 @@
 package cn.variZoo;
 
-import cn.variZoo.managers.FileManager;
-import cn.variZoo.managers.ListenerManager;
-import cn.variZoo.utils.*;
+import cn.variZoo.Manager.FileManager;
+import cn.variZoo.Manager.ListenerManager;
+import cn.variZoo.Util.*;
+import cn.variZoo.Util.Scheduler.XScheduler;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,7 +11,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Main extends JavaPlugin {
     public FileManager fileManager;
     public ListenerManager listenerManager;
-    private boolean folia;
 
     @Override
     public void onEnable() {
@@ -43,12 +43,12 @@ public final class Main extends JavaPlugin {
 
         try {
             Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
-            folia = true;
+            new XScheduler(this,true);
         } catch (ClassNotFoundException e) {
-            folia = false;
+            new XScheduler(this,false);
         }
         fileManager = new FileManager(this);
-        new Scheduler(this);
+
         listenerManager = new ListenerManager(this);
         new Message();
 
@@ -65,15 +65,11 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Scheduler.cancelAll();
-    }
-
-    public boolean isFolia() {
-        return folia;
+        XScheduler.get().cancelAll();
     }
 
     public void reload() {
-        Scheduler.cancelAll();
+        XScheduler.get().cancelAll();
         fileManager.load();
         listenerManager.reload();
         Message.load();
