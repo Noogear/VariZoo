@@ -31,6 +31,7 @@ public class AnimalBreed implements Listener {
     private final CompiledExpression breedFinalScaleExpression;
     private final CompiledExpression breedHurtExpression;
     private final IScheduler scheduler;
+    private final Attribute scaleAttribute;
     private Degree breedInheritanceDegree;
     private String breedActionbar;
     private boolean breedActionbarEnabled;
@@ -56,6 +57,7 @@ public class AnimalBreed implements Listener {
         breedFinalScaleExpression = ExpressionUtil.build(Config.Breed.inheritance.finalScale, "father", "mother", "degree");
         breedHurtExpression = ExpressionUtil.build(Config.Breed.multiple.hurt, "max_health", "health");
         scheduler = XScheduler.get();
+        scaleAttribute = EntityUtil.getScaleAttribute();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -70,12 +72,12 @@ public class AnimalBreed implements Listener {
         double degree = breedInheritanceDegree.getRandom();
 
         double birthScale = breedFinalScaleExpression.evaluate(
-                father.getAttribute(EntityUtil.getScaleAttribute()).getValue(),
-                mother.getAttribute(EntityUtil.getScaleAttribute()).getValue(),
+                father.getAttribute(scaleAttribute).getValue(),
+                mother.getAttribute(scaleAttribute).getValue(),
                 degree
         );
 
-        AttributeInstance babyScale = entity.getAttribute(EntityUtil.getScaleAttribute());
+        AttributeInstance babyScale = entity.getAttribute(scaleAttribute);
 
         if (babyScale != null) {
             babyScale.setBaseValue(birthScale * babyScale.getValue());

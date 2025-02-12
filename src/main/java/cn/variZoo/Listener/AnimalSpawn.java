@@ -23,6 +23,7 @@ public class AnimalSpawn implements Listener {
     private final EnumSet<EntityType> blackListEntity;
     private final EnumSet<CreatureSpawnEvent.SpawnReason> blackListSpawnReason;
     private final IScheduler scheduler;
+    private final Attribute scaleAttribute;
     private Degree animalBasicDegree;
     private Degree animalMutantDegree;
     private boolean mutantModeIsMore;
@@ -46,6 +47,7 @@ public class AnimalSpawn implements Listener {
         blackListEntity = EntityUtil.entityToSet(Config.AnimalSpawn.blackList.animal);
         blackListSpawnReason = EntityUtil.spawnReasonToSet(Config.AnimalSpawn.blackList.spawnReason);
         scheduler = XScheduler.get();
+        scaleAttribute = EntityUtil.getScaleAttribute();
 
     }
 
@@ -56,7 +58,7 @@ public class AnimalSpawn implements Listener {
         if (EntityUtil.isInvalid(entity)) return;
         if (ThreadLocalRandom.current().nextInt(100) > Config.AnimalSpawn.basic.apply) return;
 
-        AttributeInstance scale = entity.getAttribute(EntityUtil.getScaleAttribute());
+        AttributeInstance scale = entity.getAttribute(scaleAttribute);
         if (scale == null) return;
 
         double randomScale = animalBasicDegree.getRandom();

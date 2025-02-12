@@ -12,15 +12,21 @@ import org.bukkit.event.entity.EntityTransformEvent;
 
 public class AnimalTransform implements Listener {
 
+    private final Attribute scaleAttribute;
+
+    public AnimalTransform() {
+        scaleAttribute = EntityUtil.getScaleAttribute();
+    }
+
     @EventHandler(ignoreCancelled = true)
     public void onTransform(EntityTransformEvent event) {
         if (!(event.getEntity() instanceof Animals from)) return;
 
-        AttributeInstance fromScale = from.getAttribute(EntityUtil.getScaleAttribute());
+        AttributeInstance fromScale = from.getAttribute(scaleAttribute);
         if (fromScale == null) return;
 
         if (!(event.getTransformedEntity() instanceof LivingEntity to)) return;
-        AttributeInstance toScale = to.getAttribute(EntityUtil.getScaleAttribute());
+        AttributeInstance toScale = to.getAttribute(scaleAttribute);
         if (toScale == null || toScale.getValue() != 1.0) return;
 
         toScale.setBaseValue(fromScale.getValue());

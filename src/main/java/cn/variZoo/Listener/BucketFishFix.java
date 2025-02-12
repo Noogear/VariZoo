@@ -36,6 +36,7 @@ public class BucketFishFix implements Listener {
     private final NamespacedKey scaleKey;
     private final EnumSet<Material> fishBucket;
     private final WeakHashMap<Location, Double> fishScale;
+    private final Attribute scaleAttribute;
 
     public BucketFishFix(Main main) {
         scaleKey = new NamespacedKey(main, "scale");
@@ -48,6 +49,7 @@ public class BucketFishFix implements Listener {
                 Material.TADPOLE_BUCKET
         )));
         fishScale = new WeakHashMap<>();
+        scaleAttribute = EntityUtil.getScaleAttribute();
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
@@ -60,7 +62,7 @@ public class BucketFishFix implements Listener {
                 if (sca != 0) {
                     entity.setFromBucket(true);
                     EntityUtil.setInvalid(entity);
-                    AttributeInstance scale = ((LivingEntity) entity).getAttribute(EntityUtil.getScaleAttribute());
+                    AttributeInstance scale = ((LivingEntity) entity).getAttribute(scaleAttribute);
                     if (scale == null) return;
                     scale.setBaseValue(sca);
                     if (Config.other.effectHealth) {
@@ -76,7 +78,7 @@ public class BucketFishFix implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onBucketFish(PlayerBucketEntityEvent event) {
         if (event.getEntity() instanceof LivingEntity entity) {
-            AttributeInstance scale = entity.getAttribute(EntityUtil.getScaleAttribute());
+            AttributeInstance scale = entity.getAttribute(scaleAttribute);
             if (scale == null) return;
             ItemStack bucket = event.getEntityBucket();
             ItemMeta meta = bucket.getItemMeta();
