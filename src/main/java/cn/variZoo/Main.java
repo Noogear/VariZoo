@@ -2,8 +2,10 @@ package cn.variZoo;
 
 import cn.variZoo.Manager.FileManager;
 import cn.variZoo.Manager.ListenerManager;
-import cn.variZoo.Util.*;
+import cn.variZoo.Util.EntityUtil;
+import cn.variZoo.Util.Message;
 import cn.variZoo.Util.Scheduler.XScheduler;
+import cn.variZoo.Util.XLogger;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -43,9 +45,9 @@ public final class Main extends JavaPlugin {
 
         try {
             Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
-            new XScheduler(this,true);
+            new XScheduler(this, true);
         } catch (ClassNotFoundException e) {
-            new XScheduler(this,false);
+            new XScheduler(this, false);
         }
         fileManager = new FileManager(this);
 

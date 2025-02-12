@@ -8,9 +8,9 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EntityUtil {
@@ -41,7 +41,7 @@ public class EntityUtil {
         return entity.customName() == null ? "<translate:" + entity.getType().translationKey() + ">" : entity.getCustomName();
     }
 
-    public static Set<EntityType> entityToSet(List<String> entities) {
+    public static EnumSet<EntityType> entityToSet(List<String> entities) {
         return entities.stream()
                 .map(String::toUpperCase)
                 .map(s -> {
@@ -53,10 +53,10 @@ public class EntityUtil {
                     }
                 })
                 .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toCollection(() -> EnumSet.noneOf(EntityType.class)));
     }
 
-    public static Set<CreatureSpawnEvent.SpawnReason> spawnReasonToSet(List<String> spawnReason) {
+    public static EnumSet<CreatureSpawnEvent.SpawnReason> spawnReasonToSet(List<String> spawnReason) {
         return spawnReason.stream()
                 .map(String::toUpperCase)
                 .map(s -> {
@@ -68,7 +68,7 @@ public class EntityUtil {
                     }
                 })
                 .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toCollection(() -> EnumSet.noneOf(CreatureSpawnEvent.SpawnReason.class)));
     }
 
 }

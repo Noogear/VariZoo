@@ -21,6 +21,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityBreedEvent;
 import redempt.crunch.CompiledExpression;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
@@ -34,7 +35,7 @@ public class AnimalBreed implements Listener {
     private String breedActionbar;
     private boolean breedActionbarEnabled;
     private boolean multipleHurtEnabled;
-    private Set<EntityType> blacklistEntity;
+    private EnumSet<EntityType> blacklistEntity;
     private Set<String> blacklistWorld;
 
     public AnimalBreed() {

@@ -26,30 +26,27 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 import java.util.WeakHashMap;
 
 import static org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.SPAWNER_EGG;
 
 public class BucketFishFix implements Listener {
-    private final Main plugin;
     private final NamespacedKey scaleKey;
-    private final Set<Material> fishBucket;
+    private final EnumSet<Material> fishBucket;
     private final WeakHashMap<Location, Double> fishScale;
 
     public BucketFishFix(Main main) {
-        this.plugin = main;
-        scaleKey = new NamespacedKey(plugin, "scale");
-        this.fishBucket = new HashSet<>(List.of(
+        scaleKey = new NamespacedKey(main, "scale");
+        this.fishBucket = EnumSet.copyOf((List.of(
                 Material.AXOLOTL_BUCKET,
                 Material.COD_BUCKET,
                 Material.SALMON_BUCKET,
                 Material.PUFFERFISH_BUCKET,
                 Material.TROPICAL_FISH_BUCKET,
                 Material.TADPOLE_BUCKET
-        ));
+        )));
         fishScale = new WeakHashMap<>();
     }
 

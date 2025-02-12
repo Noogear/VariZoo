@@ -16,15 +16,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AnimalSpawn implements Listener {
-    private final Set<EntityType> blackListEntity;
-    private final Set<CreatureSpawnEvent.SpawnReason> blackListSpawnReason;
+    private final EnumSet<EntityType> blackListEntity;
+    private final EnumSet<CreatureSpawnEvent.SpawnReason> blackListSpawnReason;
     private final IScheduler scheduler;
     private Degree animalBasicDegree;
     private Degree animalMutantDegree;
