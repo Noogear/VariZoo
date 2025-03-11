@@ -6,7 +6,6 @@ import cn.variZoo.Util.EntityUtil;
 import cn.variZoo.Util.ExpressionUtil;
 import cn.variZoo.Util.Scheduler.IScheduler;
 import cn.variZoo.Util.Scheduler.XScheduler;
-import cn.variZoo.Util.XLogger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -32,30 +31,33 @@ public class AnimalBreed implements Listener {
     private final CompiledExpression breedHurtExpression;
     private final IScheduler scheduler;
     private final Attribute scaleAttribute;
-    private Degree breedInheritanceDegree;
-    private String breedActionbar;
-    private boolean breedActionbarEnabled;
-    private boolean multipleHurtEnabled;
-    private EnumSet<EntityType> blacklistEntity;
-    private Set<String> blacklistWorld;
+    private final Degree breedInheritanceDegree;
+    private final String breedActionbar;
+    private final boolean breedActionbarEnabled;
+    private final boolean multipleHurtEnabled;
+    private final EnumSet<EntityType> blacklistEntity;
+    private final Set<String> blacklistWorld;
+    private final double multiple;
+    private final long breedDelay;
 
     public AnimalBreed() {
-
-        try {
-            breedInheritanceDegree = Degree.build(Config.Breed.inheritance.degree);
-            breedActionbar = Config.Breed.inheritance.actionbar
-                    .replace("{", "<")
-                    .replace("}", ">");
-            breedActionbarEnabled = !breedActionbar.isEmpty();
-            multipleHurtEnabled = !Config.Breed.multiple.hurt.isEmpty();
-            blacklistEntity = EntityUtil.entityToSet(Config.Breed.blackList.animal);
-            blacklistWorld = new HashSet<>(Config.Breed.blackList.world);
-        } catch (Exception e) {
-            XLogger.err(e.getMessage());
-        }
-
+        breedInheritanceDegree = Degree.build(Config.Breed.inheritance.degree);
+        blacklistEntity = EntityUtil.entityToSet(Config.Breed.blackList.animal);
+        blacklistWorld = new HashSet<>(Config.Breed.blackList.world);
+        breedActionbar = Config.Breed.inheritance.actionbar
+                .replace("{", "<")
+                .replace("}", ">");
+        breedActionbarEnabled = !breedActionbar.isEmpty();
         breedFinalScaleExpression = ExpressionUtil.build(Config.Breed.inheritance.finalScale, "father", "mother", "degree");
-        breedHurtExpression = ExpressionUtil.build(Config.Breed.multiple.hurt, "max_health", "health");
+        multipleHurtEnabled = !Config.Breed.multiple.hurt.isEmpty();
+        if (multipleHurtEnabled) {
+            breedHurtExpression = ExpressionUtil.build(Config.Breed.multiple.hurt, "max_health", "health");
+        } else {
+            breedHurtExpression = null;
+        }
+        multiple = Config.Breed.multiple.apply;
+        breedDelay = Config.Breed.multiple.delay;
+
         scheduler = XScheduler.get();
         scaleAttribute = EntityUtil.getScaleAttribute();
     }
@@ -95,13 +97,12 @@ public class AnimalBreed implements Listener {
             entity.setHealth(finalHealth);
         }
 
-        double multiple = Config.Breed.multiple.apply;
         if (multiple > 0) {
             scheduler.runTaskLater(() -> {
                 if (ThreadLocalRandom.current().nextInt(100) > multiple) return;
                 mother.setLoveModeTicks(100);
                 father.setLoveModeTicks(100);
-            }, Config.Breed.multiple.delay);
+            }, breedDelay);
         }
 
         if (multipleHurtEnabled) {
@@ -124,7 +125,6 @@ public class AnimalBreed implements Listener {
             }
         }
     }
-
 
     private boolean isInvalidBreed(Animals e, LivingEntity p) {
         if (blacklistWorld.contains(e.getWorld().getName())) return true;
