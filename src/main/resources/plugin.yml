@@ -1,7 +1,7 @@
 name: VariZoo
-version: '1.1.4'
+version: '1.1.5'
 main: cn.variZoo.Main
-api-version: '1.21'
+api-version: '1.20'
 folia-supported: true
 
 commands:

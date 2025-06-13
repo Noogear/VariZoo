@@ -3,8 +3,7 @@ package cn.variZoo.Listener;
 import cn.variZoo.Configuration.File.Config;
 import cn.variZoo.Util.Degree;
 import cn.variZoo.Util.EntityUtil;
-import cn.variZoo.Util.Scheduler.IScheduler;
-import cn.variZoo.Util.Scheduler.XScheduler;
+import cn.variZoo.Util.XScheduler;
 import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -23,7 +22,7 @@ public class AnimalSpawn implements Listener {
     private final double mutantApply;
     private final EnumSet<EntityType> blackListEntity;
     private final EnumSet<CreatureSpawnEvent.SpawnReason> blackListSpawnReason;
-    private final IScheduler scheduler;
+    private final XScheduler.IScheduler scheduler;
     private final Attribute scaleAttribute;
     private final Degree animalBasicDegree;
     private final Degree animalMutantDegree;

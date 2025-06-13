@@ -4,7 +4,7 @@ import cn.variZoo.Manager.FileManager;
 import cn.variZoo.Manager.ListenerManager;
 import cn.variZoo.Util.EntityUtil;
 import cn.variZoo.Util.Message;
-import cn.variZoo.Util.Scheduler.XScheduler;
+import cn.variZoo.Util.XScheduler;
 import cn.variZoo.Util.XLogger;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.PluginCommand;

@@ -4,8 +4,7 @@ import cn.variZoo.Configuration.File.Config;
 import cn.variZoo.Util.Degree;
 import cn.variZoo.Util.EntityUtil;
 import cn.variZoo.Util.ExpressionUtil;
-import cn.variZoo.Util.Scheduler.IScheduler;
-import cn.variZoo.Util.Scheduler.XScheduler;
+import cn.variZoo.Util.XScheduler;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -29,7 +28,7 @@ public class AnimalBreed implements Listener {
 
     private final CompiledExpression breedFinalScaleExpression;
     private final CompiledExpression breedHurtExpression;
-    private final IScheduler scheduler;
+    private final XScheduler.IScheduler scheduler;
     private final Attribute scaleAttribute;
     private final Degree breedInheritanceDegree;
     private final String breedActionbar;
