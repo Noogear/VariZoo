@@ -28,9 +28,12 @@ public class AnimalSpawn implements Listener {
     private final Degree animalMutantDegree;
     private final boolean mutantModeIsMore;
     private final boolean mutantParticleEnabled;
+    private final boolean effectHealth;
     private final Particle mutantparticle;
     private final int particleCount;
     private final Set<String> blackListWorld;
+    private final double maxScale;
+    private final double minScale;
 
     public AnimalSpawn() {
         basicApply = Config.AnimalSpawn.basic.apply;
@@ -41,9 +44,13 @@ public class AnimalSpawn implements Listener {
         mutantparticle = Particle.valueOf(Config.AnimalSpawn.Mutant.particle.type.toUpperCase(Locale.ROOT));
         particleCount = Config.AnimalSpawn.Mutant.particle.count;
         mutantParticleEnabled = Config.AnimalSpawn.Mutant.particle.type.isEmpty() || particleCount < 1;
+        effectHealth = Config.other.effectHealth;
         blackListWorld = new HashSet<>(Config.AnimalSpawn.blackList.world);
         blackListEntity = EntityUtil.entityToSet(Config.AnimalSpawn.blackList.animal);
         blackListSpawnReason = EntityUtil.spawnReasonToSet(Config.AnimalSpawn.blackList.spawnReason);
+        maxScale = Math.min(Config.AnimalSpawn.scaleLimit.max, 16);
+        minScale = Math.max(Config.AnimalSpawn.scaleLimit.min, .00625);
+
 
         scheduler = XScheduler.get();
         scaleAttribute = EntityUtil.getScaleAttribute();
@@ -76,10 +83,10 @@ public class AnimalSpawn implements Listener {
             }
         }
 
-        double finalScale = Math.max(.00625, Math.min(16, randomScale * scale.getValue()));
+        double finalScale = Math.max(minScale, Math.min(maxScale, randomScale * scale.getValue()));
         scale.setBaseValue(finalScale);
 
-        if (Config.other.effectHealth) {
+        if (effectHealth) {
             AttributeInstance maxHealth = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
             if (maxHealth == null) return;
             maxHealth.setBaseValue(Math.max(1, randomScale * maxHealth.getValue()));

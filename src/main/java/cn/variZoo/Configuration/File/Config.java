@@ -33,6 +33,8 @@ public class Config extends ConfigurationFile {
         public static Mutant mutant = new Mutant();
         @Comments(cn_value = "黑名单")
         public static BlackList blackList = new BlackList();
+        @Comments(cn_value = "体型限制")
+        public static ScaleLimit scaleLimit = new ScaleLimit();
 
         public static class Basic extends ConfigurationPart {
 
@@ -90,6 +92,17 @@ public class Config extends ConfigurationFile {
             @Comments(cn_value = {"不受影响的生成原因", "https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/CreatureSpawnEvent.SpawnReason.html"},
                     value = {"The Uninfluenced Spawning Reasons", "https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/CreatureSpawnEvent.SpawnReason.html"})
             public List<String> spawnReason = List.of("SPAWNER");
+
+        }
+
+        public static class ScaleLimit extends ConfigurationPart {
+
+                @Comments(cn_value = "最大体型不可超过16.0",
+                        value = "16.0 max size")
+                public double max = 16.0;
+                @Comments(cn_value = "最小体型不可小于0.00625",
+                        value = "0.00625 min size")
+                public double min = 0.00625;
 
         }
 
@@ -171,6 +184,5 @@ public class Config extends ConfigurationFile {
                 value = {"Multiply the number of dropped items of animals by the following value", "Complex formulas can be used. Disable when left blank", "Available variables: {scale} Creature body size"})
         public String increaseDrops = "sqrt({scale})";
     }
-
 
 }

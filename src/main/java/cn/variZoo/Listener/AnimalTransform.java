@@ -13,9 +13,11 @@ import org.bukkit.event.entity.EntityTransformEvent;
 public class AnimalTransform implements Listener {
 
     private final Attribute scaleAttribute;
+    private final boolean effectHealth;
 
     public AnimalTransform() {
         scaleAttribute = EntityUtil.getScaleAttribute();
+        effectHealth = Config.other.effectHealth;
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -31,7 +33,7 @@ public class AnimalTransform implements Listener {
 
         toScale.setBaseValue(fromScale.getValue());
 
-        if (Config.other.effectHealth) {
+        if (effectHealth) {
             AttributeInstance maxHealth = to.getAttribute(Attribute.GENERIC_MAX_HEALTH);
             if (maxHealth == null) return;
             maxHealth.setBaseValue(Math.max(1, toScale.getValue() * maxHealth.getValue()));

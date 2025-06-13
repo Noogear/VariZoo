@@ -34,6 +34,8 @@ public class AnimalBreed implements Listener {
     private final String breedActionbar;
     private final boolean breedActionbarEnabled;
     private final boolean multipleHurtEnabled;
+    private final boolean skipAnimalSpawn;
+    private final boolean effectHealth;
     private final EnumSet<EntityType> blacklistEntity;
     private final Set<String> blacklistWorld;
     private final double multiple;
@@ -41,6 +43,8 @@ public class AnimalBreed implements Listener {
 
     public AnimalBreed() {
         breedInheritanceDegree = Degree.build(Config.Breed.inheritance.degree);
+        skipAnimalSpawn = Config.Breed.inheritance.skipAnimalSpawn;
+        effectHealth = Config.other.effectHealth;
         blacklistEntity = EntityUtil.entityToSet(Config.Breed.blackList.animal);
         blacklistWorld = new HashSet<>(Config.Breed.blackList.world);
         breedActionbar = Config.Breed.inheritance.actionbar
@@ -84,11 +88,11 @@ public class AnimalBreed implements Listener {
             babyScale.setBaseValue(birthScale * babyScale.getValue());
         }
 
-        if (Config.Breed.inheritance.skipAnimalSpawn) {
+        if (skipAnimalSpawn) {
             EntityUtil.setInvalid(entity);
         }
 
-        if (Config.other.effectHealth) {
+        if (effectHealth) {
             AttributeInstance babyHealth = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
             if (babyHealth == null) return;
             double finalHealth = birthScale * babyHealth.getValue();
